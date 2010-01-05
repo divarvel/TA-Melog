@@ -1,13 +1,15 @@
 package com.ecnmelog.app;
 
 /**
- * Hello world!
- *
+ * Classe principale de l'application
  */
 public class App 
 {
-    public static void main( String[] args )
-    {
-        System.out.println( "Hello World!" );
-    }
+	/**
+	 * Méthode principale de l'application
+	 */
+	public static void main( String[] args )
+	{
+		System.out.println( "Hello World!" );
+	}
 }
