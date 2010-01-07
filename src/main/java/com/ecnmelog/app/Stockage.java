@@ -33,8 +33,8 @@ public class Stockage
 	 */
 	public Stockage(int contenance){
 		// Initialisation des espaces de stockage
-		Vector<Container> attente = new Vector<Container>();
-		Vector<Container> stockage = new Vector<Container>();
+		this.attente = new Vector<Container>();
+		this.stockage = new Vector<Container>();
 		
 		// Initialisation des nombres d'emplacements libres
 		this.contenance = contenance;
@@ -87,7 +87,7 @@ public class Stockage
 	 * @param container Le container à ajouter à la zone d'attente
 	 */
 	public void addContainer(Container container){
-		//this.attente.addElement(container);
+		this.attente.addElement(container);
 	}
 	
 	/**

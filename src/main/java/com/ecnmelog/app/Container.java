@@ -16,7 +16,7 @@ public class Container
 	protected int type = 0;
 	
 	/** Initialise un container lambda*/
-	public Container(){};
+	public Container(){}
 	
 	/**
 	 * Initialise un container du type demandé

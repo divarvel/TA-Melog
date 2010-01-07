@@ -46,7 +46,7 @@ public class StockageTest
     public void testAddContainer()
     {
         Stockage stock = new Stockage(100);
-        stock.addContainer(new Container());
+        stock.addContainer(new Container(1));
         assertTrue(true);
     }
 }

@@ -10,6 +10,7 @@ public class App
 	 */
 	public static void main( String[] args )
 	{
-		System.out.println( "Hello World!" );
+		Stockage stock = new Stockage(100);
+		stock.addContainer(new Container(1));
 	}
 }
