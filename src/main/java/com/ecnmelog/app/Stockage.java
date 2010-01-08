@@ -1,6 +1,7 @@
 package com.ecnmelog.app;
 
 import java.util.*;
+import java.sql.*;
 
 /**
  * Classe du système de stockage de container
@@ -47,6 +48,65 @@ public class Stockage
 		
 		// Le reste est normal
 		this.nbEmplacementsNormauxDispo = this.contenance - this.nbEmplacementsFrigoDispo - this.nbEmplacementsSurtarifesDispo;
+		
+		
+		Connection conn = DbConn.getInstance();
+		
+		try{
+			Statement stat = conn.createStatement();
+			// On vide le schéma (si on reconstruit l'espace de stockage alors qu'il existe déjà, ça évite des bugs)
+			stat.executeUpdate("DROP TABLE IF EXISTS type;");
+			stat.executeUpdate("DROP TABLE IF EXISTS container;");
+			stat.executeUpdate("DROP TABLE IF EXISTS emplacement;");
+			
+			// On initialise le schéma (les tables disparaissent à la fermeture de la connexion)
+			stat.executeUpdate("CREATE TEMPORARY TABLE type (type_id INTEGER, type_nom, type_couleur, PRIMARY KEY(type_id ASC));");
+			stat.executeUpdate("CREATE TEMPORARY TABLE container (container_id INTEGER, type_id INTEGER REFERENCES type (type_id) ON DELETE CASCADE, emplacement_id INTEGER REFERENCES emplacement (emplacement_id) ON DELETE SET NULL, PRIMARY KEY(container_id ASC));");
+			stat.executeUpdate("CREATE TEMPORARY TABLE emplacement (emplacement_id INTEGER, type_id INTEGER REFERENCES type (type_id) ON DELETE CASCADE, PRIMARY KEY(emplacement_id ASC));");
+
+			// On crée les 3 types de containers / emplacements
+			PreparedStatement types = conn.prepareStatement("INSERT INTO type (type_id, type_nom, type_couleur) VALUES (?, ?, ?);");
+
+				types.setInt(1, 0);
+				types.setString(2, "Normal");
+				types.setString(3, "0xFFFFFF");
+				types.addBatch();
+				types.setInt(1, 1);
+				types.setString(2, "Frigo");
+				types.setString(3, "0x0000FF");
+				types.addBatch();
+				types.setInt(1, 2);
+				types.setString(2, "Prioritaire");
+				types.setString(3, "0xFF0000");
+				types.addBatch();
+
+				conn.setAutoCommit(false);
+				types.executeBatch();
+				conn.setAutoCommit(true);
+				
+			// On crée les différents emplacements
+			PreparedStatement emplacements = conn.prepareStatement("INSERT INTO emplacement (type_id) VALUES (?);");
+				
+				for(int i=0; i<this.nbEmplacementsNormauxDispo; i++){
+					emplacements.setInt(1, 0);
+					emplacements.addBatch();
+				}
+				for(int i=0; i<this.nbEmplacementsFrigoDispo; i++){
+					emplacements.setInt(1, 1);
+					emplacements.addBatch();
+				}
+				for(int i=0; i<this.nbEmplacementsSurtarifesDispo; i++){
+					emplacements.setInt(1, 2);
+					emplacements.addBatch();
+				}
+
+				conn.setAutoCommit(false);
+				emplacements.executeBatch();
+				conn.setAutoCommit(true);
+		}
+		catch(SQLException e){
+			System.out.println("Impossible de créer l'espace de stockage !");
+		}
 	}
 	
 	/**

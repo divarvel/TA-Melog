@@ -1,5 +1,8 @@
 package com.ecnmelog.app;
 
+
+import java.sql.*;
+
 /**
  * Classe principale de l'application
  */
@@ -11,6 +14,13 @@ public class App
 	public static void main( String[] args )
 	{
 		Stockage stock = new Stockage(100);
-		stock.addContainer(new Container(1));
+		
+		// Fin du programme, on ferme la connexion à la DB
+		try{
+			DbConn.getInstance().close();
+		}
+		catch(SQLException e){
+			System.out.println("Erreur SQL");
+		}
 	}
 }
