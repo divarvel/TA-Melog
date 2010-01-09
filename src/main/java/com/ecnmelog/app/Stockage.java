@@ -59,10 +59,10 @@ public class Stockage
 			stat.executeUpdate("DROP TABLE IF EXISTS container;");
 			stat.executeUpdate("DROP TABLE IF EXISTS emplacement;");
 			
-			// On initialise le schéma (les tables disparaissent à la fermeture de la connexion)
-			stat.executeUpdate("CREATE TEMPORARY TABLE type (type_id INTEGER, type_nom, type_couleur, PRIMARY KEY(type_id ASC));");
-			stat.executeUpdate("CREATE TEMPORARY TABLE container (container_id INTEGER, type_id INTEGER REFERENCES type (type_id) ON DELETE CASCADE, emplacement_id INTEGER REFERENCES emplacement (emplacement_id) ON DELETE SET NULL, PRIMARY KEY(container_id ASC));");
-			stat.executeUpdate("CREATE TEMPORARY TABLE emplacement (emplacement_id INTEGER, type_id INTEGER REFERENCES type (type_id) ON DELETE CASCADE, PRIMARY KEY(emplacement_id ASC));");
+			// On initialise le schéma
+			stat.executeUpdate("CREATE TABLE type (type_id INTEGER, type_nom, type_couleur, PRIMARY KEY(type_id ASC));");
+			stat.executeUpdate("CREATE TABLE container (container_id INTEGER, type_id INTEGER REFERENCES type (type_id) ON DELETE CASCADE, emplacement_id INTEGER REFERENCES emplacement (emplacement_id) ON DELETE SET NULL DEFAULT NULL, PRIMARY KEY(container_id ASC));");
+			stat.executeUpdate("CREATE TABLE emplacement (emplacement_id INTEGER, type_id INTEGER REFERENCES type (type_id) ON DELETE CASCADE, PRIMARY KEY(emplacement_id ASC));");
 
 			// On crée les 3 types de containers / emplacements
 			PreparedStatement types = conn.prepareStatement("INSERT INTO type (type_id, type_nom, type_couleur) VALUES (?, ?, ?);");
@@ -147,7 +147,18 @@ public class Stockage
 	 * @param container Le container à ajouter à la zone d'attente
 	 */
 	public void addContainer(Container container){
-		this.attente.addElement(container);
+		Connection conn = DbConn.getInstance();
+		
+		try{
+			PreparedStatement stat = conn.prepareStatement("INSERT INTO container (container_id, type_id) VALUES (?, ?);");
+			stat.setInt(1, container.getId());
+			stat.setInt(2, container.getType());
+			
+			stat.execute();
+		}
+		catch(SQLException e){
+			System.out.println("Erreur SQL");
+		}
 	}
 	
 	/**
@@ -161,7 +172,35 @@ public class Stockage
 	 * Retire un container de la zone de stockage (on retire préférentiellement les containers placés sur des emplacements non prévus pour eux)
 	 * @param type Type du container à enlever.
 	 */
-	public void removeContainer(int type){
+	public void removeContainerByType(int type){
+		Connection conn = DbConn.getInstance();
+		Integer id = null;
 		
+		try{
+			// On repère le container à enlever (du type qu'on veut, et préférentiellement sur un emplacement normal)
+			PreparedStatement toDelete = conn.prepareStatement("SELECT container_id FROM container a NATURAL JOIN type b WHERE a.type_id=? ORDER BY b.type_id ASC LIMIT 1;");
+			toDelete.setInt(1, type);
+			ResultSet rs = toDelete.executeQuery();
+			while(rs.next()) {
+				id = rs.getInt("container_id");
+			}
+			rs.close();
+			
+			if(id != null){
+				PreparedStatement delete = conn.prepareStatement("DELETE FROM container WHERE container_id=?;");
+				delete.setInt(1, id);
+				delete.executeUpdate();
+			}else{
+				// TODO throw new NoContainerException();
+				System.out.println("Pas de container !");
+			}
+			
+			
+			// On vire le container
+		}
+		catch(SQLException e){
+			//e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
 	}
 }

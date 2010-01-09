@@ -15,20 +15,38 @@ public class Container
 	 */
 	protected int type = 0;
 	
-	/** Initialise un container lambda*/
-	public Container(){}
+	/** Identifiant du container */
+	protected int id = 0;
+	
+	/**
+	 * Initialise un container lambda
+	 * @param id L'identifiant du container
+	 * */
+	public Container(int id){
+		this.id = id;
+	}
 	
 	/**
 	 * Initialise un container du type demandé
+	 * @param id L'identifiant du container
 	 * @param type Le type de container
 	 */
-	public Container(int type){
+	public Container(int id, int type){
+		this.id = id;
 		this.type = type;
 	}
 	
 	/**
+	 * Renvoie l'identifiant du container
+	 * @return l'identifiant du container
+	 */
+	public int getId(){
+		return this.id;
+	}
+	
+	/**
 	 * Renvoie le type du container
-	 * @return 0: lambda, 1: surtarifé, 2: frigorifique
+	 * @return le type du container
 	 */
 	public int getType(){
 		return this.type;

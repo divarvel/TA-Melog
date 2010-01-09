@@ -13,7 +13,6 @@ public class App
 	 */
 	public static void main( String[] args )
 	{
-		Stockage stock = new Stockage(100);
 		
 		// Fin du programme, on ferme la connexion à la DB
 		try{
@@ -22,5 +21,6 @@ public class App
 		catch(SQLException e){
 			System.out.println("Erreur SQL");
 		}
+
 	}
 }
