@@ -1,4 +1,4 @@
-package com.ecnmelog.app;
+package com.ecnmelog.model;
 
 
 /**

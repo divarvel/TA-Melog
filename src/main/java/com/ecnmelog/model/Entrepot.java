@@ -1,4 +1,4 @@
-package com.ecnmelog.app;
+package com.ecnmelog.model;
 
 /**
  * Interface implémentée par les objets qui peuvent stocker des containers.

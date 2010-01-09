@@ -1,4 +1,4 @@
-package com.ecnmelog.app;
+package com.ecnmelog.model;
 
 
 /** Exception levée lorsqu'on fait des trucs interdits avec un emplacement*/

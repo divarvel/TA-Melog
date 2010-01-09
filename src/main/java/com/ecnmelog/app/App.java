@@ -1,8 +1,9 @@
 package com.ecnmelog.app;
 
 
+import com.ecnmelog.model.*;
+import com.ecnmelog.view.*;
 import java.sql.*;
-import com.ecnmelog.view.Interface;
 
 /**
  * Classe principale de l'application

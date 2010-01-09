@@ -1,4 +1,4 @@
-package com.ecnmelog.app;
+package com.ecnmelog.model;
 
 
 /** Exception levée lorsqu'on essaye de faire des trucs pas nets avec les containers*/
