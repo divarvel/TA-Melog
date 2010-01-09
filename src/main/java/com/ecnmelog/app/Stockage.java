@@ -174,11 +174,11 @@ public class Stockage implements Entrepot
    */
   public void storeContainer(int container_id, int emplacement_id) throws ContainerException
   {
-    conn = DbConn.getInstance();
-    int type_id;
+    Connection conn = DbConn.getInstance();
+    int type_id = 0;
     //On vérifie que le container existe
     try{
-			PreparedStatement emplacement = conn.prepareStatement("SELECT container_id, type_id FROM container WHERE container_id=? LIMIT 1;");
+			PreparedStatement stat = conn.prepareStatement("SELECT container_id, type_id FROM container WHERE container_id=? LIMIT 1;");
 			stat.setInt(1, container_id);
 			ResultSet rs = stat.executeQuery();
 			if(rs.next()) {
@@ -193,10 +193,10 @@ public class Stockage implements Entrepot
 		catch(SQLException e){
 			System.out.println(e.getMessage());
 		}
-      int type_emplacement;
+      int type_emplacement = 0;
       //On vérifie que l'emplacement est disponible
       try{
-			PreparedStatement emplacement = conn.prepareStatement("SELECT a.type_id, a.emplacement_id FROM emplacement a LEFT JOIN container b ON a.emplacement_id=b.emplacement_id WHERE a.emplacement_id=? AND b.container_id ISNULL");
+			PreparedStatement stat = conn.prepareStatement("SELECT a.type_id, a.emplacement_id FROM emplacement a LEFT JOIN container b ON a.emplacement_id=b.emplacement_id WHERE a.emplacement_id=? AND b.container_id ISNULL");
 			stat.setInt(1, emplacement_id);
 			ResultSet rs = stat.executeQuery();
 			if(!rs.next()) {
@@ -216,18 +216,20 @@ public class Stockage implements Entrepot
     //il ne faut pas le mettre sur l'emplacement
     if ((type_emplacement == 1 || type_emplacement == 2) && (type_id == 0))
     {
-      throw ContainerException("La mise en place d'un container normal sur un emplacement frigorifique ou privilégié est impossible");
+      throw new ContainerException("La mise en place d'un container normal sur un emplacement frigorifique ou privilégié est impossible");
     }
     
     //On stocke alors le container dans l'emplacement
     try{
-      PrepareStatement stat = conn.prepareStatement("UPDATE container c SET c.emplacement_id=? WHERE c.container_id=?");
+      PreparedStatement stat = conn.prepareStatement("UPDATE container c SET c.emplacement_id=? WHERE c.container_id=?");
       stat.setInt(1,emplacement_id);
       stat.setInt(2,container_id);
       stat.executeUpdate();
     }
     catch(SQLException e){
 			System.out.println(e.getMessage());
+      
+      
 		}
     
   

@@ -61,4 +61,32 @@ public class StockageTest
         assertEquals(att.countContainers(1), 1);
         assertEquals(att.countContainers(2), 0);
     }
+    
+    public void testStoreContainer()
+    {
+      
+      Stockage stock = new Stockage(100);
+      Attente att = new Attente();
+      try{
+        att.addContainer(new Container(1, 0));
+        att.addContainer(new Container(2, 1));
+        att.addContainer(new Container(3, 1));
+        att.addContainer(new Container(4, 1));
+        att.addContainer(new Container(5, 1));
+      }catch(ContainerException e){
+        System.out.println(e.getMessage());
+      }
+      try{
+        stock.storeContainer(1, 0);
+        stock.storeContainer(2, 31);
+      }
+      catch(ContainerException e)
+      {
+        System.out.println(e.getMessage());
+      }
+      assertEquals(att.countContainers(), 3);
+      assertEquals(stock.countContainers(), 2);
+      assertEquals(stock.countContainers(1), 1);
+      assertEquals(stock.countContainers(2), 1);
+    }
 }
