@@ -229,7 +229,40 @@ public class Stockage implements Entrepot
 			System.out.println(e.getMessage());
 		}
 	}
-  
+	
+	/** 
+	 * Renvoie un emplacement libre pour stocker un container du type demandé
+	 * @param container_type Type du container
+	 */
+	
+	public int getEmplacementLibre(int container_type)
+	{
+		Connection conn = DbConn.getInstance();
+		
+		int emplacement_id = 0;
+		
+		switch (container_type){
+			case 0:
+				try{
+					PreparedStatement stat = conn.prepareStatement("SELECT a.emplacement_id FROM emplacement a LEFT JOIN container b ON a.emplacement_id=b.emplacement_id WHERE a.emplacement_id=0 AND b.container_id ISNULL ORDER BY a.emplacement_id ASC LIMIT 1");
+					ResultSet rs = stat.executeQuery();
+					if(!rs.next()) {
+						throw new EmplacementException("Aucun emplacement disponible");
+					}
+					else
+					{
+						emplacement_id = rs.getInt("emplacement_id");
+					}
+					rs.close();
+				}
+				catch(SQLException e){
+					System.out.println(e.getMessage());
+				}
+				break;
+		}
+		
+		
+	
 	/**
 	 * Traite les containers en attente. Stocke les containers qui peuvent l'être, laisse les autres dans la zone de stockage
 	 */
