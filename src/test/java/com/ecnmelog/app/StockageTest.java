@@ -77,7 +77,7 @@ public class StockageTest
         System.out.println(e.getMessage());
       }
       try{
-        stock.storeContainer(1, 0);
+        stock.storeContainer(1, 1);
         stock.storeContainer(2, 31);
       }
       catch(ContainerException e)
@@ -87,6 +87,6 @@ public class StockageTest
       assertEquals(att.countContainers(), 3);
       assertEquals(stock.countContainers(), 2);
       assertEquals(stock.countContainers(1), 1);
-      assertEquals(stock.countContainers(2), 1);
+      assertEquals(stock.countContainers(2), 0);
     }
 }
