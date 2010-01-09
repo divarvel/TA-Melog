@@ -199,7 +199,7 @@ public class Stockage implements Entrepot
 			stat.setInt(1, emplacement_id);
 			ResultSet rs = stat.executeQuery();
 			if(!rs.next()) {
-				throw new ContainerException("L'emplacement est indisponible"+emplacement_id);
+				throw new EmplacementException("L'emplacement est indisponible"+emplacement_id);
 			}
 			else
 			{
@@ -215,7 +215,7 @@ public class Stockage implements Entrepot
 		//il ne faut pas le mettre sur l'emplacement
 		if ((type_emplacement == 1 || type_emplacement == 2) && (type_id == 0))
 		{
-			throw new ContainerException("La mise en place d'un container normal sur un emplacement frigorifique ou privilégié est impossible");
+			throw new EmplacementException("La mise en place d'un container normal sur un emplacement frigorifique ou privilégié est impossible");
 		}
 
 		//On stocke alors le container dans l'emplacement
