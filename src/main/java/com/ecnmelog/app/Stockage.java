@@ -139,7 +139,6 @@ public class Stockage implements Entrepot
 	}
 	
 	
-<<<<<<< HEAD
 	/**
 	 * Renvoie le nombre d'emplacements frigorifiques libres 
 	 * @return Nombre d'emplacements libres
@@ -175,6 +174,7 @@ public class Stockage implements Entrepot
    */
   public void storeContainer(int container_id, int emplacement_id) throws ContainerException
   {
+    conn = DbConn.getInstance();
     int type_id;
     //On vérifie que le container existe
     try{
@@ -182,7 +182,7 @@ public class Stockage implements Entrepot
 			stat.setInt(1, container_id);
 			ResultSet rs = stat.executeQuery();
 			if(rs.next()) {
-				throw new ContainerException("Le container n'existe pas")
+				throw new ContainerException("Le container n'existe pas");
 			}
       else
       {
@@ -200,7 +200,7 @@ public class Stockage implements Entrepot
 			stat.setInt(1, emplacement_id);
 			ResultSet rs = stat.executeQuery();
 			if(!rs.next()) {
-				throw new ContainerException("L'emplacement est indisponible")
+				throw new ContainerException("L'emplacement est indisponible");
 			}
       else
       {
@@ -214,7 +214,7 @@ public class Stockage implements Entrepot
     
     //On vérifie que si l'emplacement est frigo ou privilégié et que le container est de type normal
     //il ne faut pas le mettre sur l'emplacement
-    if ((type_emplacement == 1 || type_emplacement == 2) && (type_id == 0)
+    if ((type_emplacement == 1 || type_emplacement == 2) && (type_id == 0))
     {
       throw ContainerException("La mise en place d'un container normal sur un emplacement frigorifique ou privilégié est impossible");
     }
