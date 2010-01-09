@@ -34,11 +34,11 @@ public class StockageTest
     public void testInitEmplacement()
     {
         Stockage stock = new Stockage(100);
-        //assertEquals(100, stock.getNbEmplacementsDispo());
-        //assertEquals(5, stock.getNbEmplacementsFrigoDispo());
-        //assertEquals(65, stock.getNbEmplacementsSurtarifesDispo());
-        //assertEquals(30, stock.getNbEmplacementsNormauxDispo());
-        assertTrue(true);
+        Attente att = new Attente();
+        assertEquals(100, stock.getNbEmplacementsDispo());
+        assertEquals(5, stock.getNbEmplacementsFrigoDispo());
+        assertEquals(65, stock.getNbEmplacementsSurtarifesDispo());
+        assertEquals(30, stock.getNbEmplacementsNormauxDispo());
     }
     
     /**
@@ -47,9 +47,14 @@ public class StockageTest
     public void testAddContainer()
     {
         Stockage stock = new Stockage(100);
-        stock.addContainer(new Container(1, 2));
-        stock.addContainer(new Container(2, 1));
-        stock.removeContainerByType(2);
-        assertTrue(true);
+        Attente att = new Attente();
+        att.addContainer(new Container(1, 2));
+        att.addContainer(new Container(2, 1));
+        att.removeContainerByType(2);
+        System.out.println(att.countContainers());
+        assertEquals(att.countContainers(), 1);
+        assertEquals(att.countContainersByType(0), 0);
+        assertEquals(att.countContainersByType(1), 1);
+        assertEquals(att.countContainersByType(2), 0);
     }
 }

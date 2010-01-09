@@ -7,47 +7,24 @@ import java.sql.*;
  * Classe du système de stockage de container
  * @author Clément Delafargue
  */
-public class Stockage
+public class Stockage implements Entrepot
 {
-	/** Containers en attente d'être stockés*/
-	protected Vector<Container> attente;
-	
-	/** Containers stockés*/
-	protected Vector<Container> stockage;
-	
-	/** Contenance de l'espace de stockage*/
-	protected int contenance;
-	
-	/** Nombre d'emplacements frigorifiques disponibles */
-	protected int nbEmplacementsFrigoDispo;
-	
-	/** Nombre d'empacements sur-tarifés disponibles */
-	protected int nbEmplacementsSurtarifesDispo;
-	
-	/** Nombre d'empacements normaux disponibles */
-	protected int nbEmplacementsNormauxDispo;
-	
-	
 	/**
 	 * Initialise un espace de stockage 
 	 * @param contenance Contenance de la zone de stockage
 	 */
 	public Stockage(int contenance){
-		// Initialisation des espaces de stockage
-		this.attente = new Vector<Container>();
-		this.stockage = new Vector<Container>();
 		
 		// Initialisation des nombres d'emplacements libres
-		this.contenance = contenance;
 		
 		// Un emplacement sur 20 est frigorifique
-		this.nbEmplacementsFrigoDispo = (int) contenance / 20;
+		int nbEmplacementsFrigoDispo = (int) contenance / 20;
 		
 		// 65% des emplacements sont sur-tarifés
-		this.nbEmplacementsSurtarifesDispo = (int) (this.contenance * 0.65);
+		int nbEmplacementsSurtarifesDispo = (int) (contenance * 0.65);
 		
 		// Le reste est normal
-		this.nbEmplacementsNormauxDispo = this.contenance - this.nbEmplacementsFrigoDispo - this.nbEmplacementsSurtarifesDispo;
+		int nbEmplacementsNormauxDispo = contenance - nbEmplacementsFrigoDispo - nbEmplacementsSurtarifesDispo;
 		
 		
 		Connection conn = DbConn.getInstance();
@@ -87,15 +64,15 @@ public class Stockage
 			// On crée les différents emplacements
 			PreparedStatement emplacements = conn.prepareStatement("INSERT INTO emplacement (type_id) VALUES (?);");
 				
-				for(int i=0; i<this.nbEmplacementsNormauxDispo; i++){
+				for(int i=0; i<nbEmplacementsNormauxDispo; i++){
 					emplacements.setInt(1, 0);
 					emplacements.addBatch();
 				}
-				for(int i=0; i<this.nbEmplacementsFrigoDispo; i++){
+				for(int i=0; i<nbEmplacementsFrigoDispo; i++){
 					emplacements.setInt(1, 1);
 					emplacements.addBatch();
 				}
-				for(int i=0; i<this.nbEmplacementsSurtarifesDispo; i++){
+				for(int i=0; i<nbEmplacementsSurtarifesDispo; i++){
 					emplacements.setInt(1, 2);
 					emplacements.addBatch();
 				}
@@ -114,7 +91,24 @@ public class Stockage
 	 * @return Nombre d'emplacements libres
 	 */
 	public int getNbEmplacementsDispo(){
-		return this.nbEmplacementsNormauxDispo + this.nbEmplacementsFrigoDispo + this.nbEmplacementsSurtarifesDispo;
+		Connection conn = DbConn.getInstance();
+		int dispo = 0;
+		
+		try{
+			Statement stat = conn.createStatement();
+			ResultSet rs = stat.executeQuery("SELECT COUNT(*) AS dispo FROM emplacement a LEFT JOIN container b ON a.emplacement_id = b.emplacement_id WHERE b.emplacement_id ISNULL;");
+			if(rs.next()) {
+				dispo = rs.getInt("dispo");
+			}
+			rs.close();
+		}
+		catch(SQLException e){
+			//e.printStackTrace();
+			// TODO THROW EXCEPTION
+			System.out.println(e.getMessage());
+		}
+		
+		return dispo;
 	}
 	
 	/**
@@ -122,7 +116,24 @@ public class Stockage
 	 * @return Nombre d'emplacements libres
 	 */
 	public int getNbEmplacementsNormauxDispo(){
-		return this.nbEmplacementsNormauxDispo;
+		Connection conn = DbConn.getInstance();
+		int dispo = 0;
+		
+		try{
+			Statement stat = conn.createStatement();
+			ResultSet rs = stat.executeQuery("SELECT COUNT(*) AS dispo FROM emplacement a LEFT JOIN container b ON a.emplacement_id = b.emplacement_id WHERE a.type_id = 0 AND b.emplacement_id ISNULL;");
+			if(rs.next()) {
+				dispo = rs.getInt("dispo");
+			}
+			rs.close();
+		}
+		catch(SQLException e){
+			//e.printStackTrace();
+			// TODO THROW EXCEPTION
+			System.out.println(e.getMessage());
+		}
+		
+		return dispo;
 	}
 	
 	/**
@@ -130,7 +141,24 @@ public class Stockage
 	 * @return Nombre d'emplacements libres
 	 */
 	public int getNbEmplacementsFrigoDispo(){
-		return this.nbEmplacementsFrigoDispo;
+		Connection conn = DbConn.getInstance();
+		int dispo = 0;
+		
+		try{
+			Statement stat = conn.createStatement();
+			ResultSet rs = stat.executeQuery("SELECT COUNT(*) AS dispo FROM emplacement a LEFT JOIN container b ON a.emplacement_id = b.emplacement_id WHERE a.type_id = 1 AND b.emplacement_id ISNULL;");
+			if(rs.next()) {
+				dispo = rs.getInt("dispo");
+			}
+			rs.close();
+		}
+		catch(SQLException e){
+			//e.printStackTrace();
+			// TODO THROW EXCEPTION
+			System.out.println(e.getMessage());
+		}
+		
+		return dispo;
 	}
 	
 	/**
@@ -138,27 +166,24 @@ public class Stockage
 	 * @return Nombre d'emplacements libres
 	 */
 	public int getNbEmplacementsSurtarifesDispo(){
-		return this.nbEmplacementsSurtarifesDispo;
-	}
-	
-	
-	/**
-	 * Ajoute un container à la zone d'attente
-	 * @param container Le container à ajouter à la zone d'attente
-	 */
-	public void addContainer(Container container){
 		Connection conn = DbConn.getInstance();
+		int dispo = 0;
 		
 		try{
-			PreparedStatement stat = conn.prepareStatement("INSERT INTO container (container_id, type_id) VALUES (?, ?);");
-			stat.setInt(1, container.getId());
-			stat.setInt(2, container.getType());
-			
-			stat.execute();
+			Statement stat = conn.createStatement();
+			ResultSet rs = stat.executeQuery("SELECT COUNT(*) AS dispo FROM emplacement a LEFT JOIN container b ON a.emplacement_id = b.emplacement_id WHERE a.type_id = 2 AND b.emplacement_id ISNULL;");
+			if(rs.next()) {
+				dispo = rs.getInt("dispo");
+			}
+			rs.close();
 		}
 		catch(SQLException e){
-			System.out.println("Erreur SQL");
+			//e.printStackTrace();
+			// TODO THROW EXCEPTION
+			System.out.println(e.getMessage());
 		}
+		
+		return dispo;
 	}
 	
 	/**
@@ -168,20 +193,106 @@ public class Stockage
 		// C'est là qu'est le gros du travail ;-)
 	}
 	
-	/**
-	 * Retire un container de la zone de stockage (on retire préférentiellement les containers placés sur des emplacements non prévus pour eux)
-	 * @param type Type du container à enlever.
+	
+	
+	
+	
+	
+	
+	
+	/*
+	 * -----------------------------------------------------------------
+	 * 
+	 * Implémentation de l'interface Entrepôt
+	 * 
+	 * -----------------------------------------------------------------
 	 */
+	
+		
+	/**
+	 * Renvoie le nombre de containers stockés
+	 * @return Le nombre de containers (types confondus) stockés
+	 */
+	public int countContainers(){
+		Connection conn = DbConn.getInstance();
+		int enStock = 0;
+		
+		try{
+			Statement stat = conn.createStatement();
+			ResultSet rs = stat.executeQuery("SELECT COUNT(*) AS stock FROM container WHERE emplacement_id NOT NULL;");
+			if(rs.next()) {
+				enStock = rs.getInt("stock");
+			}
+			rs.close();
+		}
+		catch(SQLException e){
+			//e.printStackTrace();
+			// TODO THROW EXCEPTION
+			System.out.println(e.getMessage());
+		}
+		
+		return enStock;
+	}
+	
+	
+	/**
+	 * Renvoie le nombre de containers d'un type donné stockés
+	 * @return Le nombre de containers du type donné stockés
+	 */
+	public int countContainersByType(int type){
+		Connection conn = DbConn.getInstance();
+		int enStock = 0;
+		
+		try{
+			PreparedStatement stat = conn.prepareStatement("SELECT COUNT(*) AS stock FROM container WHERE emplacement_id NOT NULL AND type_id= ?;");
+			stat.setInt(1, type);
+			ResultSet rs = stat.executeQuery();
+			if(rs.next()) {
+				enStock = rs.getInt("stock");
+			}
+			rs.close();
+		}
+		catch(SQLException e){
+			//e.printStackTrace();
+			// TODO THROW EXCEPTION
+			System.out.println(e.getMessage());
+		}
+		
+		return enStock;
+	}
+	
+	
+	/**
+	 * Enlève le container demandé de la zone de stockage
+	 * @param id L'id du container à enlever
+	 * */
+	public void removeContainerById(int id){
+		Connection conn = DbConn.getInstance();
+		
+		try{
+			PreparedStatement stat = conn.prepareStatement("DELETE FROM container WHERE container_id=? AND emplacement_id NOT NULL;");
+			stat.setInt(1, id);
+			stat.execute();
+		}
+		catch(SQLException e){
+			System.out.println("Erreur SQL");
+		}
+	}
+	
+	/**
+	 * Enlève un container du type demandé de la zone de stockage
+	 * @param type Le type de container à enlever
+	 * */
 	public void removeContainerByType(int type){
 		Connection conn = DbConn.getInstance();
 		Integer id = null;
 		
 		try{
-			// On repère le container à enlever (du type qu'on veut, et préférentiellement sur un emplacement normal)
-			PreparedStatement toDelete = conn.prepareStatement("SELECT container_id FROM container a NATURAL JOIN type b WHERE a.type_id=? ORDER BY b.type_id ASC LIMIT 1;");
+			// On repère le container à enlever (du type qu'on veut)
+			PreparedStatement toDelete = conn.prepareStatement("SELECT container_id FROM container a NATURAL JOIN type b WHERE a.type_id=? AND a.emplacement_id NOT NULL ORDER BY b.type_id ASC LIMIT 1;");
 			toDelete.setInt(1, type);
 			ResultSet rs = toDelete.executeQuery();
-			while(rs.next()) {
+			if(rs.next()) {
 				id = rs.getInt("container_id");
 			}
 			rs.close();
@@ -190,17 +301,40 @@ public class Stockage
 				PreparedStatement delete = conn.prepareStatement("DELETE FROM container WHERE container_id=?;");
 				delete.setInt(1, id);
 				delete.executeUpdate();
-			}else{
-				// TODO throw new NoContainerException();
-				System.out.println("Pas de container !");
 			}
-			
-			
-			// On vire le container
 		}
 		catch(SQLException e){
 			//e.printStackTrace();
 			System.out.println(e.getMessage());
+		}
+	}
+	
+	/**
+	 * Enlève tous les containers du type demandé de la zone de stockage
+	 * @param type Le type de containers à enlever
+	 * */
+	public void removeContainersByType(int type){
+		Connection conn = DbConn.getInstance();
+		
+		try{
+			PreparedStatement stat = conn.prepareStatement("DELETE FROM container WHERE type_id=? AND emplacement_id NOT NULL;");
+			stat.setInt(1, type);
+			stat.execute();
+		}
+		catch(SQLException e){
+			System.out.println("Erreur SQL");
+		}
+	}
+	
+	/** Vide la zone de stockage */
+	public void empty(){
+		Connection conn = DbConn.getInstance();
+		try{
+			Statement stat = conn.createStatement();
+			stat.executeUpdate("DELETE FROM container WHERE emplacement_id NOT NULL;");
+		}
+		catch(SQLException e){
+			System.out.println("Erreur SQL");
 		}
 	}
 }
