@@ -6,6 +6,7 @@ import java.sql.*;
 /**
  * Classe du système de stockage de container
  * @author Clément Delafargue
+ * @author Benjamin Vialle
  */
 public class Stockage implements Entrepot
 {
@@ -166,11 +167,8 @@ public class Stockage implements Entrepot
 
 	/** 
 	* Permet de stocker un container. ie modifie son emplacement (de null) à 0,1 ou 2
-	* @param int container_id
-	* @param int emplacement_id
-	* 
-	* @author Benjamin Vialle
-	* @todo Gérer les exceptions
+	* @param container_id id du container
+	* @param emplacement_id id de l'emplacement
 	*/
 	public void storeContainer(int container_id, int emplacement_id) throws ContainerException
 	{
