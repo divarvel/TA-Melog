@@ -2,6 +2,7 @@ package com.ecnmelog.app;
 
 
 import java.sql.*;
+import com.ecnmelog.view.Interface;
 
 /**
  * Classe principale de l'application
@@ -13,6 +14,8 @@ public class App
 	 */
 	public static void main( String[] args )
 	{
+		
+		Interface fenetre = new Interface();
 		
 		// Fin du programme, on ferme la connexion à la DB
 		try{
