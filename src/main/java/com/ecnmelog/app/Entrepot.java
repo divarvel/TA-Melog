@@ -8,7 +8,7 @@ package com.ecnmelog.app;
 interface Entrepot{
 	// Méthodes de comptage
 	public int countContainers();
-	public int countContainersByType(int type);
+	public int countContainers(int type);
 	
 	// Méthodes de vidage
 	public void removeContainerById(int id);

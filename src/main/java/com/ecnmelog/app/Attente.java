@@ -74,7 +74,7 @@ class Attente implements Entrepot{
 	 * Renvoie le nombre de containers d'un type donné en attente
 	 * @return Le nombre de containers du type donné en attente
 	 */
-	public int countContainersByType(int type){
+	public int countContainers(int type){
 		Connection conn = DbConn.getInstance();
 		int enStock = 0;
 		

@@ -90,7 +90,7 @@ public class Stockage implements Entrepot
 	 * Renvoie le nombre d'emplacements libres (tous types confondus) 
 	 * @return Nombre d'emplacements libres
 	 */
-	public int getNbEmplacementsDispo(){
+	public int countEmplacementsDispo(){
 		Connection conn = DbConn.getInstance();
 		int dispo = 0;
 		
@@ -113,15 +113,17 @@ public class Stockage implements Entrepot
 	
 	/**
 	 * Renvoie le nombre d'emplacements normaux libres
+	 * @param type Le type d'emplacements à compter
 	 * @return Nombre d'emplacements libres
 	 */
-	public int getNbEmplacementsNormauxDispo(){
+	public int countEmplacementsDispo(int type){
 		Connection conn = DbConn.getInstance();
 		int dispo = 0;
 		
 		try{
-			Statement stat = conn.createStatement();
-			ResultSet rs = stat.executeQuery("SELECT COUNT(*) AS dispo FROM emplacement a LEFT JOIN container b ON a.emplacement_id = b.emplacement_id WHERE a.type_id = 0 AND b.emplacement_id ISNULL;");
+			PreparedStatement stat = conn.prepareStatement("SELECT COUNT(*) AS dispo FROM emplacement a LEFT JOIN container b ON a.emplacement_id = b.emplacement_id WHERE a.type_id = ? AND b.emplacement_id ISNULL;");
+			stat.setInt(1, type);
+			ResultSet rs = stat.executeQuery();
 			if(rs.next()) {
 				dispo = rs.getInt("dispo");
 			}
@@ -136,55 +138,7 @@ public class Stockage implements Entrepot
 		return dispo;
 	}
 	
-	/**
-	 * Renvoie le nombre d'emplacements frigorifiques libres 
-	 * @return Nombre d'emplacements libres
-	 */
-	public int getNbEmplacementsFrigoDispo(){
-		Connection conn = DbConn.getInstance();
-		int dispo = 0;
-		
-		try{
-			Statement stat = conn.createStatement();
-			ResultSet rs = stat.executeQuery("SELECT COUNT(*) AS dispo FROM emplacement a LEFT JOIN container b ON a.emplacement_id = b.emplacement_id WHERE a.type_id = 1 AND b.emplacement_id ISNULL;");
-			if(rs.next()) {
-				dispo = rs.getInt("dispo");
-			}
-			rs.close();
-		}
-		catch(SQLException e){
-			//e.printStackTrace();
-			// TODO THROW EXCEPTION
-			System.out.println(e.getMessage());
-		}
-		
-		return dispo;
-	}
 	
-	/**
-	 * Renvoie le nombre d'emplacements frigorifiques libres 
-	 * @return Nombre d'emplacements libres
-	 */
-	public int getNbEmplacementsSurtarifesDispo(){
-		Connection conn = DbConn.getInstance();
-		int dispo = 0;
-		
-		try{
-			Statement stat = conn.createStatement();
-			ResultSet rs = stat.executeQuery("SELECT COUNT(*) AS dispo FROM emplacement a LEFT JOIN container b ON a.emplacement_id = b.emplacement_id WHERE a.type_id = 2 AND b.emplacement_id ISNULL;");
-			if(rs.next()) {
-				dispo = rs.getInt("dispo");
-			}
-			rs.close();
-		}
-		catch(SQLException e){
-			//e.printStackTrace();
-			// TODO THROW EXCEPTION
-			System.out.println(e.getMessage());
-		}
-		
-		return dispo;
-	}
 	
 	/**
 	 * Traite les containers en attente. Stocke les containers qui peuvent l'être, laisse les autres dans la zone de stockage
@@ -239,7 +193,7 @@ public class Stockage implements Entrepot
 	 * Renvoie le nombre de containers d'un type donné stockés
 	 * @return Le nombre de containers du type donné stockés
 	 */
-	public int countContainersByType(int type){
+	public int countContainers(int type){
 		Connection conn = DbConn.getInstance();
 		int enStock = 0;
 		
