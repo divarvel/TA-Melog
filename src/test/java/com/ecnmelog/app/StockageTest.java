@@ -84,6 +84,10 @@ public class StockageTest
       {
         System.out.println(e.getMessage());
       }
+      catch(EmplacementException e)
+      {
+        System.out.println(e.getMessage());
+      }
       assertEquals(att.countContainers(), 3);
       assertEquals(stock.countContainers(), 2);
       assertEquals(stock.countContainers(1), 1);

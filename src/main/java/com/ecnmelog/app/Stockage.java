@@ -170,7 +170,7 @@ public class Stockage implements Entrepot
 	* @param container_id id du container
 	* @param emplacement_id id de l'emplacement
 	*/
-	public void storeContainer(int container_id, int emplacement_id) throws ContainerException
+	public void storeContainer(int container_id, int emplacement_id) throws ContainerException, EmplacementException
 	{
 		Connection conn = DbConn.getInstance();
 		int type_id = 0;
@@ -228,6 +228,7 @@ public class Stockage implements Entrepot
 		catch(SQLException e){
 			System.out.println(e.getMessage());
 		}
+		
 	}
 	
 	/** 
@@ -235,7 +236,7 @@ public class Stockage implements Entrepot
 	 * @param container_type Type du container
 	 */
 	
-	public int getEmplacementLibre(int container_type)
+	public int getEmplacementLibre(int container_type) throws EmplacementException
 	{
 		Connection conn = DbConn.getInstance();
 		
@@ -261,7 +262,8 @@ public class Stockage implements Entrepot
 				break;
 		}
 		
-		
+		return emplacement_id;
+	}
 	
 	/**
 	 * Traite les containers en attente. Stocke les containers qui peuvent l'être, laisse les autres dans la zone de stockage
