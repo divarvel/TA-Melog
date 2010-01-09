@@ -185,7 +185,76 @@ public class Stockage implements Entrepot
 		
 		return dispo;
 	}
+  
+  /** 
+   * Permet de stocker un container. ie modifie son emplacement (de null) à 0,1 ou 2
+   * @param int container_id
+   * @param int emplacement_id
+   * 
+   * @author Benjamin Vialle
+   * @todo Gérer les exceptions
+   */
 	
+  public void storeContainer(int container_id, int emplacement_id) throws ContainerException
+  {
+    int type_id;
+    //On vérifie que le container existe
+    try{
+			PreparedStatement emplacement = conn.prepareStatement("SELECT container_id, type_id FROM container WHERE container_id=? LIMIT 1;");
+			stat.setInt(1, container_id);
+			ResultSet rs = stat.executeQuery();
+			if(rs.next()) {
+				throw new ContainerException("Le container n'existe pas")
+			}
+      else
+      {
+        type_id = rs.getInt("type_id");
+      }
+			rs.close();
+		}
+		catch(SQLException e){
+			System.out.println(e.getMessage());
+		}
+      int type_emplacement;
+      //On vérifie que l'emplacement est disponible
+      try{
+			PreparedStatement emplacement = conn.prepareStatement("SELECT a.type_id, a.emplacement_id FROM emplacement a LEFT JOIN container b ON a.emplacement_id=b.emplacement_id WHERE a.emplacement_id=? AND b.container_id ISNULL");
+			stat.setInt(1, emplacement_id);
+			ResultSet rs = stat.executeQuery();
+			if(!rs.next()) {
+				throw new ContainerException("L'emplacement est indisponible")
+			}
+      else
+      {
+        type_emplacement = rs.getInt("type_id");
+      }
+			rs.close();
+		}
+		catch(SQLException e){
+			System.out.println(e.getMessage());
+		}
+    
+    //On vérifie que si l'emplacement est frigo ou privilégié et que le container est de type normal
+    //il ne faut pas le mettre sur l'emplacement
+    if ((type_emplacement == 1 || type_emplacement == 2) && (type_id == 0)
+    {
+      throw ContainerException("La mise en place d'un container normal sur un emplacement frigorifique ou privilégié est impossible");
+    }
+    
+    //On stocke alors le container dans l'emplacement
+    try{
+      PrepareStatement stat = conn.prepareStatement("UPDATE container c SET c.emplacement_id=? WHERE c.container_id=?");
+      stat.setInt(1,emplacement_id);
+      stat.setInt(2,container_id);
+      stat.executeUpdate();
+    }
+    catch(SQLException e){
+			System.out.println(e.getMessage());
+		}
+    
+  
+  }
+  
 	/**
 	 * Traite les containers en attente. Stocke les containers qui peuvent l'être, laisse les autres dans la zone de stockage
 	 */
