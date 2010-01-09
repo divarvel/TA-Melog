@@ -48,8 +48,12 @@ public class StockageTest
     {
         Stockage stock = new Stockage(100);
         Attente att = new Attente();
-        att.addContainer(new Container(1, 2));
-        att.addContainer(new Container(2, 1));
+        try{
+            att.addContainer(new Container(1, 2));
+            att.addContainer(new Container(2, 1));
+        }catch(ContainerException e){
+            System.out.println(e.getMessage());
+        }
         att.removeContainerByType(2);
         System.out.println(att.countContainers());
         assertEquals(att.countContainers(), 1);

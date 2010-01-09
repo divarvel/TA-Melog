@@ -19,7 +19,7 @@ class Attente implements Entrepot{
 	 * Ajoute un container à la zone d'attente
 	 * @param container Le container à ajouter à la zone d'attente
 	 */
-	public void addContainer(Container container){
+	public void addContainer(Container container) throws ContainerException{
 		Connection conn = DbConn.getInstance();
 		
 		try{
@@ -30,7 +30,7 @@ class Attente implements Entrepot{
 			stat.execute();
 		}
 		catch(SQLException e){
-			System.out.println("Erreur SQL");
+			throw new ContainerException("Le conteneur est déjà répertorié !");
 		}
 	}
 	
