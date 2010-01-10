@@ -1,5 +1,7 @@
 package com.ecnmelog.model;
 
+import java.sql.*;
+import java.util.ArrayList;
 
 /**
  * Classe de définition des containers
@@ -70,5 +72,26 @@ public class Container
 				
 			}
 		return retour;
+	}
+	
+	
+	public static ArrayList<Integer> getTypes(){
+		ArrayList<Integer> types = new ArrayList<Integer>();
+		
+		Connection conn = DbConn.getInstance();
+		
+		try{
+			Statement stat = conn.createStatement();
+			ResultSet rs = stat.executeQuery("SELECT type_id FROM type");
+			while(rs.next()){
+				types.add(rs.getInt("type_id"));
+			}
+			rs.close();
+		}
+		catch(SQLException e){
+			System.out.println("Erreur SQL");
+		}
+		
+		return types;
 	}
 }
