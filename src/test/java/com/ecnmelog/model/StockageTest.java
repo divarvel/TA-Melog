@@ -55,7 +55,6 @@ public class StockageTest
             System.out.println(e.getMessage());
         }
         att.removeContainerByType(2);
-        System.out.println(att.countContainers());
         assertEquals(att.countContainers(), 1);
         assertEquals(att.countContainers(0), 0);
         assertEquals(att.countContainers(1), 1);
