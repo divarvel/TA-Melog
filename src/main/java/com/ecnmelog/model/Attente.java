@@ -18,6 +18,7 @@ class Attente implements Entrepot{
 	/**
 	 * Ajoute un container à la zone d'attente
 	 * @param container Le container à ajouter à la zone d'attente
+	 * @throws ContainerException si le container est déjà dans la base de données
 	 */
 	public void addContainer(Container container) throws ContainerException{
 		Connection conn = DbConn.getInstance();
@@ -72,6 +73,7 @@ class Attente implements Entrepot{
 	
 	/**
 	 * Renvoie le nombre de containers d'un type donné en attente
+	 * @param type Le type de containers à compter
 	 * @return Le nombre de containers du type donné en attente
 	 */
 	public int countContainers(int type){

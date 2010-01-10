@@ -139,36 +139,12 @@ public class Stockage implements Entrepot
 		return dispo;
 	}
 	
-	
-	/**
-	 * Renvoie le nombre d'emplacements frigorifiques libres 
-	 * @return Nombre d'emplacements libres
-	 */
-	public int getNbEmplacementsSurtarifesDispo(){
-		Connection conn = DbConn.getInstance();
-		int dispo = 0;
-		
-		try{
-			Statement stat = conn.createStatement();
-			ResultSet rs = stat.executeQuery("SELECT COUNT(*) AS dispo FROM emplacement a LEFT JOIN container b ON a.emplacement_id = b.emplacement_id WHERE a.type_id = 2 AND b.emplacement_id ISNULL;");
-			if(rs.next()) {
-				dispo = rs.getInt("dispo");
-			}
-			rs.close();
-		}
-		catch(SQLException e){
-			//e.printStackTrace();
-			// TODO THROW EXCEPTION
-			System.out.println(e.getMessage());
-		}
-		
-		return dispo;
-	}
-
 	/** 
 	* Permet de stocker un container. ie modifie son emplacement (de null) à 0,1 ou 2
 	* @param container_id id du container
 	* @param emplacement_id id de l'emplacement
+	* @throws ContainerException Si on essaye de stocker un container qui n'existe pas
+	* @throws EmplacementException Si on essaye de stocker un container dans un emplacement indisponible
 	*/
 	public void storeContainer(int container_id, int emplacement_id) throws ContainerException, EmplacementException
 	{
@@ -199,7 +175,7 @@ public class Stockage implements Entrepot
 			stat.setInt(1, emplacement_id);
 			ResultSet rs = stat.executeQuery();
 			if(!rs.next()) {
-				throw new EmplacementException("L'emplacement est indisponible"+emplacement_id);
+				throw new EmplacementException("L'emplacement est indisponible");
 			}
 			else
 			{
@@ -234,6 +210,8 @@ public class Stockage implements Entrepot
 	/** 
 	 * Renvoie un emplacement libre pour stocker un container du type demandé
 	 * @param container_type Type du container
+	 * @return L'identifiant de l'emplacement correspondant
+	 * @throws EmplacementException S'il n'y a pas d'emplacement qui correspond
 	 */
 	
 	public int getEmplacementLibre(int container_type) throws EmplacementException
