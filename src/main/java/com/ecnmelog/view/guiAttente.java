@@ -21,11 +21,11 @@ import javax.swing.JLabel;
  * */
 
 public class guiAttente extends JPanel{
-	
-	private JLabel lblTitre = new JLabel("Attente");
-	public guiAttente(){
-		
-		this.setLayout(new FlowLayout());
-		this.add(lblTitre);
-	} 
+    
+    private JLabel lblTitre = new JLabel("Attente");
+    public guiAttente(){
+        
+        this.setLayout(new FlowLayout());
+        this.add(lblTitre);
+    } 
 }

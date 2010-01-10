@@ -25,13 +25,13 @@ import javax.swing.JSplitPane;
  * */
 public class guiSchemaStockage extends JPanel{
 
-	public guiSchemaStockage(){
-		this.setBackground(Color.RED);
-	}
-	
-	public void paintComponent(Graphics g){
-		this.setSize(400, 200);
-		// Affichage des boîtes
-	}
+    public guiSchemaStockage(){
+        this.setBackground(Color.RED);
+    }
+    
+    public void paintComponent(Graphics g){
+        this.setSize(400, 200);
+        // Affichage des boîtes
+    }
 
 }

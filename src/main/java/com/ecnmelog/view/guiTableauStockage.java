@@ -25,16 +25,16 @@ import javax.swing.JScrollPane;
 public class guiTableauStockage extends JPanel{
 
 
-	public guiTableauStockage(){
-		String[] colonnes = {"Type", "Occupés", "Libres"};
-		Object[][] data = {	{"Normal", "5", "25"},
-							{"Frigorifiques", "2", "3"},
-							{"Surtarifés", "5", "60"},
-							{"Total", "12", "88"}};
-							
-		JTable tableau = new JTable(data, colonnes);
-		
-		this.add(new JScrollPane(tableau));
+    public guiTableauStockage(){
+        String[] colonnes = {"Type", "Occupés", "Libres"};
+        Object[][] data = {    {"Normal", "5", "25"},
+                            {"Frigorifiques", "2", "3"},
+                            {"Surtarifés", "5", "60"},
+                            {"Total", "12", "88"}};
+                            
+        JTable tableau = new JTable(data, colonnes);
+        
+        this.add(new JScrollPane(tableau));
 
-	}
+    }
 }
