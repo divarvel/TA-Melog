@@ -5,7 +5,7 @@ package com.ecnmelog.model;
  * Ces objets présentent un manière commune de se débarasser des containers
  * @author Clément Delafargue
  * */
-interface Entrepot{
+public interface Entrepot{
 	// Méthodes de comptage
 	public int countContainers();
 	public int countContainers(int type);

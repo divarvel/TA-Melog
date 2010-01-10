@@ -6,7 +6,7 @@ import java.sql.*;
  * Classe de gestion des containers dans la zone d'attente
  * @author Clément Delafargue
  * */
-class Attente implements Entrepot{
+public class Attente implements Entrepot{
 	
 	/**
 	 * Initialisation de l'espace d'attente
