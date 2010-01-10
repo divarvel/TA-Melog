@@ -2,12 +2,13 @@
 
 package com.ecnmelog.controller;
 
-import com.ecnmelog.model.AbstractModel;
+import com.ecnmelog.model.AbstractStockage;
+import com.ecnmelog.model.AbstractAttente;
 
 public class StockageController extends AbstractController {
 
-	public StockageController(AbstractModel stock) {
-		super(stock);
+	public StockageController(AbstractStockage stock, AbstractAttente att) {
+		super(stock, att);
 	}
 
 	void control() {

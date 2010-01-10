@@ -4,15 +4,17 @@ package com.ecnmelog.controller;
 
 import java.util.ArrayList;
 
-
-import com.ecnmelog.model.AbstractModel;
+import com.ecnmelog.model.AbstractStockage;
+import com.ecnmelog.model.AbstractAttente;
 
 public abstract class AbstractController {
 	
-	protected AbstractModel stock;
+	protected AbstractStockage stock;
+	protected AbstractAttente att;
 	
-	public AbstractController(AbstractModel stock){
+	public AbstractController(AbstractStockage stock, AbstractAttente att){
 		this.stock = stock;
+		this.att = att;
 	}
 	
 	/**

@@ -5,10 +5,16 @@ import java.util.ArrayList;
 import com.ecnmelog.observer.Observable;
 import com.ecnmelog.observer.Observer;
 
-public abstract class AbstractModel implements Observable{
+public abstract class AbstractAttente implements Observable, Entrepot {
 	
 	private ArrayList<Observer> listObserver = new ArrayList<Observer>();
-
+	
+	/**
+	 * Ajouter un container
+	 * @param container Le container à ajouter
+	 */
+	public abstract void addContainer(Container container);
+	
 	//**************************************************
 	//		   IMPLÉMENTATION PATTERN OBSERVER
 	//**************************************************
