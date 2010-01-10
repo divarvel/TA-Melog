@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import com.ecnmelog.model.AbstractStockage;
 import com.ecnmelog.model.AbstractAttente;
 
+/**
+ * Classe abstraite définissant le comportement du contrôleur
+ */
 public abstract class AbstractController {
 	
 	protected AbstractStockage stock;

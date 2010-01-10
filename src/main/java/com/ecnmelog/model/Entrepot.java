@@ -2,7 +2,7 @@ package com.ecnmelog.model;
 
 /**
  * Interface implémentée par les objets qui peuvent stocker des containers.
- * Ces objets présentent un manière commune de se débarasser des containers
+ * Ces objets présentent un manière commune de compter et de se débarasser des containers
  * @author Clément Delafargue
  * */
 public interface Entrepot{

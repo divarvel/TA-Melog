@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import com.ecnmelog.observer.Observable;
 import com.ecnmelog.observer.Observer;
 
+/**
+ * Classe abstraite permettant de bien définir le comportement de l'objet attente vis-à-vis du contrôleur
+ */
 public abstract class AbstractAttente implements Observable, Entrepot {
 	
 	private ArrayList<Observer> listObserver = new ArrayList<Observer>();

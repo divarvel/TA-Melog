@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import com.ecnmelog.observer.Observable;
 import com.ecnmelog.observer.Observer;
 
+/**
+ * Classe abstraite permettant de bien définir le comportement de l'objet stockage vis-à-vis du contrôleur
+ */
 public abstract class AbstractStockage implements Observable, Entrepot{
 	
 	private ArrayList<Observer> listObserver = new ArrayList<Observer>();
