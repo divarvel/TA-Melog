@@ -210,4 +210,36 @@ public class StockageTest
         // 65 - 2 = 63
         assertEquals(63, stock.countEmplacementsDispo(2));
     }
+    
+    public void testTraiterAttenteOverFlow() {
+        // Cas où tous les containers ne peuvent être chargés
+        Stockage stock = new Stockage(100);
+        Attente att = new Attente();
+        
+        // On ajoute 35 containers normaux
+        // On ajoute 6 containers frigo
+        // On ajoute 67 containers surtarifés
+        try {
+            for(int i=0; i<=34; i++)
+                att.addContainer(new Container(i, 0));
+            for(int i=0; i<=5; i++)
+                att.addContainer(new Container(i + 35, 1));
+            for(int i=0; i<=66; i++)
+                att.addContainer(new Container(i + 41, 2));
+        } catch(ContainerException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        stock.traiterAttente();
+        
+        // On vérifie que tous les containers qui pouvaient l'être ont été stockés
+        assertEquals(27, stock.countContainers(0));
+        assertEquals(6, stock.countContainers(1));
+        assertEquals(67, stock.countContainers(2));
+        
+        // On vérfie qu'il reste bien 5 containers normaux en attente
+        assertEquals(8, att.countContainers(0));
+        assertEquals(0, att.countContainers(1));
+        assertEquals(0, att.countContainers(2));
+    }
 }
