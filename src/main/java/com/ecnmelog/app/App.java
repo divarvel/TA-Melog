@@ -8,21 +8,19 @@ import java.sql.*;
 /**
  * Classe principale de l'application
  */
-public class App 
-{
+public class App {
     /**
-     * Méthode principale de l'application
+     * Méthode principale de l'application.
+     * @param args Les arguments passés en CLI
      */
-    public static void main( String[] args )
-    {
+    public static void main(String[] args) {
         
         Interface fenetre = new Interface();
         
         // Fin du programme, on ferme la connexion à la DB
-        try{
+        try {
             DbConn.getInstance().close();
-        }
-        catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println("Erreur SQL");
         }
 
