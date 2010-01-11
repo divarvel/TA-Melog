@@ -25,7 +25,9 @@ public class App {
      * @param args Les arguments passés en CLI
      */
     public static void main(String[] args) {
-        AbstractStockage stock = new Stockage(100);
+        int capaciteStockage = 100;
+        
+        AbstractStockage stock = new Stockage(capaciteStockage);
         AbstractAttente att = new Attente();
         try {
             att.addContainer(new Container(1, 0));
