@@ -16,7 +16,7 @@ public abstract class AbstractAttente implements Observable, Entrepot {
      * Ajouter un container
      * @param container Le container à ajouter
      */
-    public abstract void addContainer(Container container);
+    public abstract void addContainer(Container container) throws ContainerException;
     
     //**************************************************
     //           IMPLÉMENTATION PATTERN OBSERVER
