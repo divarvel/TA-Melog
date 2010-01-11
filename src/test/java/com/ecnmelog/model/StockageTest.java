@@ -174,4 +174,37 @@ public class StockageTest
             fail();
         }
     }
+    
+    public void testTraiterAttente() {
+        Stockage stock = new Stockage(100);
+        Attente att = new Attente();
+        
+        // On ajoute 2 containers normaux
+        // On ajoute 6 containers frigo
+        // On ajoute 2 containers surtarifés
+        try {
+            for(int i=0; i<=1; i++)
+                att.addContainer(new Container(i, 0));
+            for(int i=2; i<=7; i++)
+                att.addContainer(new Container(i, 1));
+            for(int i=8; i<=9; i++)
+                att.addContainer(new Container(i, 2));
+        } catch(ContainerException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        // On stocke tout
+        stock.traiterAttente();
+        
+        // On vérifie que tous les containers ont été stockés
+        //assertEquals(2, stock.countContainers(0));
+        assertEquals(6, stock.countContainers(1));
+        assertEquals(2, stock.countContainers(2));
+        
+        // On vérfie qu'ils l'ont été aux bons emplacements
+        // 2 containers normaux + 1 frigo dans les emplacements normaux
+        assertEquals(32, stock.countEmplacementsDispo(0));
+        assertEquals(0, stock.countEmplacementsDispo(1));
+        assertEquals(63, stock.countEmplacementsDispo(2));
+    }
 }
