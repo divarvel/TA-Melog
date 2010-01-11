@@ -35,7 +35,6 @@ public class guiStockage extends JPanel{
     
     public guiStockage(StockageController control){
         this.controller = control;
-        controller.emptyStockage();
         this.setPreferredSize(new Dimension(480, 700));
         onglets.add("Graph", new guiSchemaStockage());
         onglets.add("Tableau", new guiTableauStockage());
@@ -65,12 +64,10 @@ public class guiStockage extends JPanel{
     public class EmptyListener implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             JOptionPane jop = new JOptionPane();
-            int option = jop.showConfirmDialog(null, "Voulez-vous vider la zone de stockage ?", "Vider la zone de stockage", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int confirm = jop.showConfirmDialog(null, "Voulez-vous vider la zone de stockage ?", "Vider la zone de stockage", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
             
-            if(option == JOptionPane.OK_OPTION)
-            {
-                //TODO : faire marcher cette merde (ça plante car c'est dans une classe interne, apparemment)
-                //controller.emptyStockage();     
+            if(confirm == JOptionPane.OK_OPTION) {
+                controller.emptyStockage();     
             }
         }
     }

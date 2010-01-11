@@ -2,6 +2,9 @@ package com.ecnmelog.view;
 
 import java.awt.Color;
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -41,12 +44,24 @@ public class Interface extends JFrame implements Observer{
     
     /** Initialise le contenu de la fenêtre */
     public void initContent(){
+        JButton btnStocker = new JButton(">>");
+        btnStocker.setPreferredSize(new Dimension(40, 10));
+        btnStocker.addActionListener(new StockListener());
         this.pan.setLayout(new BorderLayout());
         this.pan.add(new guiAttente(this.controller), BorderLayout.WEST);
+        this.pan.add(btnStocker, BorderLayout.CENTER);
         this.pan.add(new guiStockage(this.controller), BorderLayout.EAST);
     }
     
+    /** Implémentation de l'interface Observer */
     public void update(String str) {
         
+    }
+    
+    /** Listener du bouton de stockage des containers en attente */
+    public class StockListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            controller.traiterAttente();     
+        }
     }
 }
