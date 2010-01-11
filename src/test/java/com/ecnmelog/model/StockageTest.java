@@ -197,14 +197,17 @@ public class StockageTest
         stock.traiterAttente();
         
         // On vérifie que tous les containers ont été stockés
-        //assertEquals(2, stock.countContainers(0));
+        assertEquals(2, stock.countContainers(0));
         assertEquals(6, stock.countContainers(1));
         assertEquals(2, stock.countContainers(2));
         
         // On vérfie qu'ils l'ont été aux bons emplacements
         // 2 containers normaux + 1 frigo dans les emplacements normaux
-        assertEquals(32, stock.countEmplacementsDispo(0));
+        // 30 - 3 = 27
+        assertEquals(27, stock.countEmplacementsDispo(0));
+        // 5 - 5 = 0
         assertEquals(0, stock.countEmplacementsDispo(1));
+        // 65 - 2 = 63
         assertEquals(63, stock.countEmplacementsDispo(2));
     }
 }
