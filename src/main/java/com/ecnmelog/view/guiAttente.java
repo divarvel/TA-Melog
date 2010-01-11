@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -35,6 +36,10 @@ public class guiAttente extends JPanel{
     public guiAttente(StockageController control){
         this.controller = control;
         this.setPreferredSize(new Dimension(480, 700));
+        
+        Font police = new Font("Tahoma", Font.BOLD, 42);
+        lblTitre.setFont(police);
+        lblTitre.setHorizontalAlignment(JLabel.CENTER);
         
         this.btnVider.addActionListener(new EmptyListener());
         
