@@ -8,7 +8,7 @@ import java.sql.*;
  * @author Clément Delafargue
  * @author Benjamin Vialle
  */
-public class Stockage implements Entrepot
+public class Stockage extends AbstractStockage implements Entrepot
 {
     /**
      * Initialise un espace de stockage 

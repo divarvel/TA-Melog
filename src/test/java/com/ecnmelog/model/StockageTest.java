@@ -76,4 +76,38 @@ public class StockageTest
       assertEquals(1, stock.countContainers(1));
       assertEquals(0, stock.countContainers(2));
     }
+    
+    /**
+     * Test de vérification de la méthode de vidage des containers
+     */
+    public void testEmpty()
+    {
+      
+      Stockage stock = new Stockage(100);
+      Attente att = new Attente();
+      try{
+        att.addContainer(new Container(1, 0));
+        att.addContainer(new Container(2, 1));
+        att.addContainer(new Container(3, 1));
+        att.addContainer(new Container(4, 1));
+        att.addContainer(new Container(5, 1));
+      }catch(ContainerException e){
+        System.out.println(e.getMessage());
+      }
+      try{
+        stock.storeContainer(1, 1);
+        stock.storeContainer(2, 31);
+      }
+      catch(ContainerException e)
+      {
+        System.out.println(e.getMessage());
+      }
+      catch(EmplacementException e)
+      {
+        System.out.println(e.getMessage());
+      }
+      
+      stock.empty();
+      assertEquals(0, stock.countContainers());
+    }
 }

@@ -3,7 +3,11 @@ package com.ecnmelog.view;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.FlowLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JOptionPane;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
@@ -12,9 +16,8 @@ import javax.swing.JTabbedPane;
 
 
 
-//Pas encore implémenté ;-)
-//import com.ecnmelog.controler.*;
-//import com.ecnmelog.observer.Observer;
+import com.ecnmelog.controller.StockageController;
+import com.ecnmelog.observer.Observer;
 
 /**
  * Classe de définition de la partie "Stockage" de la GUI
@@ -27,10 +30,17 @@ public class guiStockage extends JPanel{
     private JTabbedPane onglets = new JTabbedPane();
     private JButton btnVider = new JButton("Vider");
     
-    public guiStockage(){
+    /** Instance du contrôleur */
+    private StockageController controller;
+    
+    public guiStockage(StockageController control){
+        this.controller = control;
+        controller.emptyStockage();
+        this.setPreferredSize(new Dimension(480, 700));
         onglets.add("Graph", new guiSchemaStockage());
         onglets.add("Tableau", new guiTableauStockage());
 
+        this.btnVider.addActionListener(new EmptyListener());
         
         JPanel panelTitre = new JPanel();
         JPanel panelData = new JPanel();
@@ -48,5 +58,20 @@ public class guiStockage extends JPanel{
         this.add(panelData);
         this.add(panelBouton);
         
-    } 
+    }
+    
+    
+    /** Listener du bouton de vidage de la zone de stockage*/
+    public class EmptyListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            JOptionPane jop = new JOptionPane();
+            int option = jop.showConfirmDialog(null, "Voulez-vous vider la zone de stockage ?", "Vider la zone de stockage", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            
+            if(option == JOptionPane.OK_OPTION)
+            {
+                //TODO : faire marcher cette merde (ça plante car c'est dans une classe interne, apparemment)
+                //controller.emptyStockage();     
+            }
+        }
+    }
 }
