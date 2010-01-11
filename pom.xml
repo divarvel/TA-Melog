@@ -6,7 +6,8 @@
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>melog</name>
-  <url>http://maven.apache.org</url>
+  <url>http://redmine.campus.ec-nantes.fr/projects/show/melog</url>
+  <description>Une application de gestion d'un stock de containers</description>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
@@ -58,10 +59,11 @@
       <organization>Eklaweb</organization>
       <organizationUrl>http://www.eklaweb.com</organizationUrl>
       <roles>
-        <role>administrateur</role>
+        <role>Chef de projet</role>
+        <role>Développeur</role>
       </roles>
       <timezone>1</timezone>
-      <properties><messenger>test</messenger></properties>
+      <properties><messenger>divarvel@gmail.com</messenger></properties>
     </developer>
     <developer>
       <id>benjaminvialle</id>
@@ -71,10 +73,28 @@
       <organization>Kassepied</organization>
       <organizationUrl>http://www.kassepied.org</organizationUrl>
       <roles>
-        <role>administrateur</role>
+        <role>Développeur</role>
       </roles>
       <timezone>1</timezone>
-      <properties><messenger>test</messenger></properties>
+      <properties><messenger>benjaminvialle@gmail.com</messenger></properties>
     </developer>
   </developers>
+  <licenses>
+    <license>
+      <name>GPL v3</name>
+      <url>http://www.gnu.org/licenses/gpl-3.0.txt</url>
+      <distribution>repo</distribution>
+      <comments>The GNU General Public License is a free, copyleft license for software and other kinds of works.</comments>
+    </license>
+  </licenses>
+  <issueManagement>
+    <system>Redmine</system>
+    <url>http://redmine.campus.ec-nantes.fr/projects/show/melog</url>
+  </issueManagement>
+  <scm>
+    <connection>scm:git:git://github.com/divarvel/TA-Melog.git</connection>
+    <developerConnection>scm:git:git@github.com/divarvel/TA-Melog.git</developerConnection>
+    <tag>HEAD</tag>
+    <url>http://github.com/divarvel/TA-Melog</url>
+  </scm>
 </project>
