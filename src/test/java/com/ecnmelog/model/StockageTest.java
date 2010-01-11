@@ -110,4 +110,61 @@ public class StockageTest
       stock.empty();
       assertEquals(0, stock.countContainers());
     }
+    
+    public void testGetEmplacemetLibre() {
+        
+      Stockage stock = new Stockage(100);
+      Attente att = new Attente();
+      
+      try{
+        for(int i=0; i<=1; i++) {
+            att.addContainer(new Container(i, 0));
+        }
+        for(int i=2; i<=7; i++){
+            att.addContainer(new Container(i, 1));
+        }
+        for(int i=8; i<=9; i++){
+            att.addContainer(new Container(i, 2));
+        }
+      }catch(ContainerException e){
+        System.out.println(e.getMessage());
+      }
+        
+        //On teste si les emplacements sont bien vides
+        try {
+            assertEquals(31, stock.getEmplacementLibre(1));
+            assertEquals(1, stock.getEmplacementLibre(0));
+            assertEquals(36, stock.getEmplacementLibre(2));
+        } catch (EmplacementException e) {
+            fail();
+        } catch (ContainerException e) {
+            fail();
+        }
+        
+        try {                
+            for(int i=0; i<=1; i++) {
+                stock.storeContainer(i, stock.getEmplacementLibre(0));
+            }
+            for(int i=2; i<=7; i++) {
+                stock.storeContainer(i, stock.getEmplacementLibre(1));
+            }
+            for(int i=8; i<=9; i++) {
+                stock.storeContainer(i, stock.getEmplacementLibre(2));
+            }
+        } catch (ContainerException e) {
+            fail();
+        } catch (EmplacementException e) {
+            fail();
+        }
+        
+        try {
+            assertEquals(4, stock.getEmplacementLibre(0));
+            assertEquals(4, stock.getEmplacementLibre(1));
+            assertEquals(38, stock.getEmplacementLibre(2));
+        } catch (EmplacementException e) {
+            fail();
+        } catch (ContainerException e) {
+            fail();
+        }
+    }
 }

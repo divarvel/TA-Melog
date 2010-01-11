@@ -15,7 +15,7 @@ public abstract class AbstractStockage implements Observable, Entrepot{
     public abstract int countEmplacementsDispo();
     public abstract int countEmplacementsDispo(int type);
     public abstract void storeContainer(int container_id, int emplacement_id) throws ContainerException, EmplacementException;
-    public abstract int getEmplacementLibre(int container_type) throws EmplacementException;
+    public abstract int getEmplacementLibre(int containerType) throws ContainerException, EmplacementException;
     public abstract void traiterAttente();
     
     //**************************************************

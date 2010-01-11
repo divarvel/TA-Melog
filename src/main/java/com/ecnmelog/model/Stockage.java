@@ -1,6 +1,6 @@
 package com.ecnmelog.model;
 
-import java.util.*;
+import java.util.ArrayList;
 import java.sql.*;
 
 /**
@@ -214,40 +214,63 @@ public class Stockage extends AbstractStockage implements Entrepot
      * @throws EmplacementException S'il n'y a pas d'emplacement qui correspond
      */
     
-    public int getEmplacementLibre(int container_type) throws EmplacementException
+    public int getEmplacementLibre(int containerType) throws ContainerException, EmplacementException
     {
         Connection conn = DbConn.getInstance();
         
-        int emplacement_id = 0;
+        if (!Container.getTypes().contains(containerType))
+            throw new ContainerException("Type de container invalide");
+                    
+        int emplacementId = 0;
         
-        switch (container_type){
-            case 0:
-                try{
-                    PreparedStatement stat = conn.prepareStatement("SELECT a.emplacement_id FROM emplacement a LEFT JOIN container b ON a.emplacement_id=b.emplacement_id WHERE a.emplacement_id=0 AND b.container_id ISNULL ORDER BY a.emplacement_id ASC LIMIT 1");
-                    ResultSet rs = stat.executeQuery();
-                    if(!rs.next()) {
-                        throw new EmplacementException("Aucun emplacement disponible");
-                    }
-                    else
-                    {
-                        emplacement_id = rs.getInt("emplacement_id");
-                    }
-                    rs.close();
-                }
-                catch(SQLException e){
-                    System.out.println(e.getMessage());
-                }
-                break;
+        try{
+            // On cherche les emplacements vides, préférentiellement du même type que le container, et de type normal s'il n'y a plus de place ailleurs
+            
+            PreparedStatement stat = conn.prepareStatement("SELECT a.emplacement_id FROM emplacement a LEFT JOIN container b ON a.emplacement_id=b.emplacement_id WHERE (a.type_id=? OR a.type_id=0) AND b.container_id ISNULL ORDER BY a.type_id DESC, a.emplacement_id ASC LIMIT 1");
+            stat.setInt(1, containerType);
+            ResultSet rs = stat.executeQuery();
+            if(!rs.next()) {
+                throw new EmplacementException("Aucun emplacement disponible");
+            }
+            else {
+                emplacementId = rs.getInt("emplacement_id");
+            }
+            rs.close();
         }
-        
-        return emplacement_id;
+        catch(SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return emplacementId;
     }
     
     /**
      * Traite les containers en attente. Stocke les containers qui peuvent l'être, laisse les autres dans la zone de stockage
      */
-    public void traiterAttente(){
-        // C'est là qu'est le gros du travail ;-)
+    public synchronized void traiterAttente(){
+        
+        Connection conn = DbConn.getInstance();
+        
+        ArrayList<Container> containers = new ArrayList<Container>();
+        try {
+            //requête qui renvoie les containers en attente et les place dans un Array List
+            Statement stat = conn.createStatement();
+            ResultSet rs = stat.executeQuery("SELECT container_id type_id FROM container WERE emplacement_id ISNULL ORDER BY type_id DESC");
+            while (!rs.next()) {
+                containers.add(new Container(rs.getInt("container_id"), rs.getInt("type_id")));
+            }
+        } catch(SQLException e) {
+            // TODO erreur
+        }
+        //Stockage des containers
+        try {
+            for(Container container: containers) {
+                this.storeContainer(container.getId(), this.getEmplacementLibre(container.getType()));
+            }
+        } catch (ContainerException e) {
+            // TODO Erreur
+        } catch (EmplacementException e) {
+            // TODO Erreur
+        }
     }
     
     

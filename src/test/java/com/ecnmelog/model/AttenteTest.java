@@ -61,9 +61,8 @@ public class AttenteTest
         try{
             att.addContainer(new Container(1, 2));
             att.addContainer(new Container(1, 1));
-            assertTrue(false);
+            fail();
         }catch(ContainerException e){
-            System.out.println(e.getMessage());
             assertTrue(true);
         }
     }
