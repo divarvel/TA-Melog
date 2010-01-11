@@ -9,6 +9,7 @@ import com.ecnmelog.model.DbConn;
 import com.ecnmelog.model.Container;
 import com.ecnmelog.model.ContainerException;
 import com.ecnmelog.model.EmplacementException;
+import com.ecnmelog.model.DbConn;
 
 
 import com.ecnmelog.view.Interface;
@@ -35,15 +36,8 @@ public class App {
             
         }
         
+        
         StockageController controller = new StockageController(stock, att);
         Interface fenetre = new Interface(controller);
-        
-        // Fin du programme, on ferme la connexion à la DB
-        try {
-            DbConn.getInstance().close();
-        } catch (SQLException e) {
-            System.out.println("Erreur SQL");
-        }
-
     }
 }
