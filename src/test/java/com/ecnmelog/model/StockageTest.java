@@ -129,11 +129,11 @@ public class StockageTest
       }catch(ContainerException e){
         System.out.println(e.getMessage());
       }
-        
+
         //On teste si les emplacements sont bien vides
         try {
-            assertEquals(31, stock.getEmplacementLibre(1));
             assertEquals(1, stock.getEmplacementLibre(0));
+            assertEquals(31, stock.getEmplacementLibre(1));
             assertEquals(36, stock.getEmplacementLibre(2));
         } catch (EmplacementException e) {
             fail();
@@ -141,7 +141,7 @@ public class StockageTest
             fail();
         }
         
-        try {                
+        try {
             for(int i=0; i<=1; i++) {
                 stock.storeContainer(i, stock.getEmplacementLibre(0));
             }
@@ -158,8 +158,15 @@ public class StockageTest
         }
         
         try {
+            // Les 2 premiers emplacements ont été pris par des
+            // containers normaux, le 3e par le 6e container frigo
+            // qui est donc mis dans un emplacement normal
             assertEquals(4, stock.getEmplacementLibre(0));
+            // Les containers frigo sont désormais stockés dans les
+            // emplacements normaux
             assertEquals(4, stock.getEmplacementLibre(1));
+            // Les containers surtarifés continuent à se stocker
+            // normalement
             assertEquals(38, stock.getEmplacementLibre(2));
         } catch (EmplacementException e) {
             fail();
