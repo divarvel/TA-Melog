@@ -247,19 +247,23 @@ public class Stockage extends AbstractStockage implements Entrepot
      * Traite les containers en attente. Stocke les containers qui peuvent l'être, laisse les autres dans la zone de stockage
      */
     public synchronized void traiterAttente(){
-        
+        // La méthode est en synchronized pour éviter les accès concurrents
+        // À la première exception lancée (typiquement lorsqu'on ne peut plus stocker de containers),
+        // la méthode s'arrête
         Connection conn = DbConn.getInstance();
         
         ArrayList<Container> containers = new ArrayList<Container>();
         try {
             //requête qui renvoie les containers en attente et les place dans un Array List
             Statement stat = conn.createStatement();
-            ResultSet rs = stat.executeQuery("SELECT container_id type_id FROM container WERE emplacement_id ISNULL ORDER BY type_id DESC");
-            while (!rs.next()) {
+            ResultSet rs = stat.executeQuery("SELECT container_id, type_id FROM container WHERE emplacement_id ISNULL ORDER BY type_id DESC");
+            while (rs.next()) {
                 containers.add(new Container(rs.getInt("container_id"), rs.getInt("type_id")));
             }
+            rs.close();
+            
         } catch(SQLException e) {
-            // TODO erreur
+            System.out.println("Erreur de récupération des containers");
         }
         //Stockage des containers
         try {
@@ -267,9 +271,9 @@ public class Stockage extends AbstractStockage implements Entrepot
                 this.storeContainer(container.getId(), this.getEmplacementLibre(container.getType()));
             }
         } catch (ContainerException e) {
-            // TODO Erreur
+            System.out.println("Container invalide");
         } catch (EmplacementException e) {
-            // TODO Erreur
+            System.out.println("Emplacement impossible");
         }
     }
     
