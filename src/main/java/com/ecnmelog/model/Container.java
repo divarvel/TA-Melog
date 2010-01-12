@@ -12,13 +12,14 @@ public class Container
     /** 
      * Type du container.
      * O pour un container lambda
-     * 1 pour un container surtarifé
-     * 2 pour un container frigorifique
      */
     protected int type = 0;
     
     /** Identifiant du container */
     protected int id = 0;
+    
+    /** Emplacement de stockage du container */
+    protected int emplacement = 0;
     
     /**
      * Initialise un container lambda
@@ -39,6 +40,18 @@ public class Container
     }
     
     /**
+     * Initialise un container du type demandé, stocké à l'emplacement demandé
+     * @param id L'identifiant du container
+     * @param type Le type de container
+     * @param emplacement L'emplacement du container
+     */
+    public Container(int id, int type, int emplacement){
+        this.id = id;
+        this.type = type;
+        this.emplacement = emplacement;
+    }
+    
+    /**
      * Renvoie l'identifiant du container
      * @return l'identifiant du container
      */
@@ -52,6 +65,14 @@ public class Container
      */
     public int getType(){
         return this.type;
+    }
+    
+    /**
+     * Renvoie l'emplacement du container
+     * @return l'emplacement du container
+     */
+    public int getEmplacement(){
+        return this.emplacement;
     }
     
     /**

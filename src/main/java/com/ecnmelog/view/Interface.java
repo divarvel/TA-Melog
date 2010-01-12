@@ -1,5 +1,8 @@
 package com.ecnmelog.view;
 
+import com.ecnmelog.model.AbstractAttenteBean;
+import com.ecnmelog.model.AbstractStockageBean;
+
 import java.awt.Color;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -10,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 
 
@@ -53,8 +57,42 @@ public class Interface extends JFrame implements Observer{
         this.pan.add(new guiStockage(this.controller), BorderLayout.EAST);
     }
     
-    /** Implémentation de l'interface Observer */
-    public void update(String str) {
+    /* Implémentation de l'interface Observer */
+    /**
+     * Transmet un message d'erreur à faire afficher par la vue
+     * @param msg le message d'erreur à faire afficher 
+     */
+    public void displayError(String error) {
+        new JOptionPane().showMessageDialog(null, error, "Erreur !", JOptionPane.ERROR_MESSAGE);
+    }
+    
+    /**
+     * Transmet un message d'avertissement à faire afficher par la vue
+     */
+    public void displayWarning(String warning) {
+        new JOptionPane().showMessageDialog(null, warning, "Attention !", JOptionPane.WARNING_MESSAGE);
+    }
+    
+    /**
+     * Transmet un message d'information à faire afficher par la vue
+     */
+    public void displayInfo(String info) {
+        new JOptionPane().showMessageDialog(null, info, "Information", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    /**
+     * Met à jour la partie "Attente" de la vue
+     * @param statutAttente Statut de la zone d'attente
+     */
+    public void updateAttente(AbstractAttenteBean attenteBean) {
+        
+    }
+    
+    /**
+     * Met à jour la partie "Stockage" de la vue
+     * @param statutStockage Statut de la zone de stockage
+     */
+    public void updateStockage(AbstractStockageBean stockageBean) {
         
     }
     

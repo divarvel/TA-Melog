@@ -25,9 +25,14 @@ public abstract class AbstractAttente implements Observable, Entrepot {
         this.listObserver.add(obs);
     }
     
-    public void notifyObserver(String str) {
+    public void notifyAttenteObserver(AbstractAttenteBean attenteBean) {
         for(Observer obs : listObserver)
-            obs.update(str);
+            obs.updateAttente(attenteBean);
+    }
+
+    public void notifyStockageObserver(AbstractStockageBean stockageBean) {
+        for(Observer obs : listObserver)
+            obs.updateStockage(stockageBean);
     }
 
     public void removeObserver() {
