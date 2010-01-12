@@ -214,8 +214,7 @@ public class Stockage extends AbstractStockage implements Entrepot
      * @throws EmplacementException S'il n'y a pas d'emplacement qui correspond
      */
     
-    public int getEmplacementLibre(int containerType) throws EmplacementException
-    {
+    public int getEmplacementLibre(int containerType) throws ContainerException, EmplacementException {
         Connection conn = DbConn.getInstance();
         
         if (!Container.getTypes().contains(containerType))
