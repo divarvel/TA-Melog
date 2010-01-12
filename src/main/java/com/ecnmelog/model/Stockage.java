@@ -209,12 +209,12 @@ public class Stockage extends AbstractStockage implements Entrepot
     
     /** 
      * Renvoie un emplacement libre pour stocker un container du type demandé
-     * @param container_type Type du container
+     * @param containerType Type du container
      * @return L'identifiant de l'emplacement correspondant
      * @throws EmplacementException S'il n'y a pas d'emplacement qui correspond
      */
     
-    public int getEmplacementLibre(int containerType) throws ContainerException, EmplacementException
+    public int getEmplacementLibre(int containerType) throws EmplacementException
     {
         Connection conn = DbConn.getInstance();
         

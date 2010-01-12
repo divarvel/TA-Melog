@@ -9,30 +9,32 @@ import com.ecnmelog.model.AbstractStockageBean;
 public interface Observer {
     
     /**
-     * Transmet un message d'erreur à faire afficher par la vue
-     * @param msg le message d'erreur à faire afficher 
+     * Affiche un message d'erreur transmis par le modèle
+     * @param error Le message à afficher
      */
     public void displayError(String error);
     
     /**
-     * Transmet un message d'avertissement à faire afficher par la vue
+     * Affiche un message d'avertissement transmis par le modèle
+     * @param warning Le message à afficher
      */
     public void displayWarning(String warning);
 
     /**
-     * Transmet un message d'information à faire afficher par la vue
+     * Affiche un message d'information transmis par le modèle
+     * @param info Le message à afficher
      */
     public void displayInfo(String info);
     
     /**
      * Met à jour la partie "Attente" de la vue
-     * @param statutAttente Statut de la zone d'attente
+     * @param attenteBean Statut de la zone d'attente
      */
     public void updateAttente(AbstractAttenteBean attenteBean);
     
     /**
      * Met à jour la partie "Stockage" de la vue
-     * @param statutStockage Statut de la zone de stockage
+     * @param stockageBean Statut de la zone de stockage
      */
     public void updateStockage(AbstractStockageBean stockageBean);
 
