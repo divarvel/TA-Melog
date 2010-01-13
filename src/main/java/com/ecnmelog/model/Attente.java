@@ -62,9 +62,7 @@ public class Attente extends AbstractAttente implements Entrepot{
             rs.close();
         }
         catch(SQLException e){
-            //e.printStackTrace();
-            // TODO THROW EXCEPTION
-            System.out.println(e.getMessage());
+            this.notifyError("Impossible de se connecter à la base de données !");
         }
         
         return enStock;
@@ -90,9 +88,7 @@ public class Attente extends AbstractAttente implements Entrepot{
             rs.close();
         }
         catch(SQLException e){
-            //e.printStackTrace();
-            // TODO THROW EXCEPTION
-            System.out.println(e.getMessage());
+            this.notifyError("Impossible de se connecter à la base de données !");
         }
         
         return enStock;
@@ -112,7 +108,7 @@ public class Attente extends AbstractAttente implements Entrepot{
             stat.execute();
         }
         catch(SQLException e){
-            System.out.println("Erreur SQL");
+            this.notifyError("Impossible de se connecter à la base de données !");
         }
     }
     
@@ -141,8 +137,7 @@ public class Attente extends AbstractAttente implements Entrepot{
             }
         }
         catch(SQLException e){
-            //e.printStackTrace();
-            System.out.println(e.getMessage());
+            this.notifyError("Impossible de se connecter à la base de données !");
         }
     }
     
@@ -159,7 +154,7 @@ public class Attente extends AbstractAttente implements Entrepot{
             stat.execute();
         }
         catch(SQLException e){
-            System.out.println("Erreur SQL");
+            this.notifyError("Impossible de se connecter à la base de données !");
         }
     }
     
@@ -171,7 +166,7 @@ public class Attente extends AbstractAttente implements Entrepot{
             stat.executeUpdate("DELETE FROM container WHERE emplacement_id ISNULL;");
         }
         catch(SQLException e){
-            System.out.println("Erreur SQL");
+            this.notifyError("Impossible de se connecter à la base de données !");
         }
     }
     

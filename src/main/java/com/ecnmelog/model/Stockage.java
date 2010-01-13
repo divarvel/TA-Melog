@@ -83,7 +83,7 @@ public class Stockage extends AbstractStockage implements Entrepot
                 conn.setAutoCommit(true);
         }
         catch(SQLException e){
-            System.out.println("Impossible de créer l'espace de stockage !");
+            this.notifyError("Impossible de créer l'espace de stockage !");
         }
     }
     
@@ -104,9 +104,7 @@ public class Stockage extends AbstractStockage implements Entrepot
             rs.close();
         }
         catch(SQLException e){
-            //e.printStackTrace();
-            // TODO THROW EXCEPTION
-            System.out.println(e.getMessage());
+            this.notifyError("Impossible de se connecter à la base de données !");
         }
         
         return dispo;
@@ -131,9 +129,7 @@ public class Stockage extends AbstractStockage implements Entrepot
             rs.close();
         }
         catch(SQLException e){
-            //e.printStackTrace();
-            // TODO THROW EXCEPTION
-            System.out.println(e.getMessage());
+            this.notifyError("Impossible de se connecter à la base de données !");
         }
         
         return dispo;
@@ -165,7 +161,7 @@ public class Stockage extends AbstractStockage implements Entrepot
             rs.close();
         }
         catch(SQLException e){
-            System.out.println(e.getMessage());
+            this.notifyError("Impossible de se connecter à la base de données !");
         }
         
         int type_emplacement = 0;
@@ -184,7 +180,7 @@ public class Stockage extends AbstractStockage implements Entrepot
             rs.close();
         }
         catch(SQLException e){
-            System.out.println(e.getMessage());
+            this.notifyError("Impossible de se connecter à la base de données !");
         }
 
         //On vérifie que si l'emplacement est frigo ou privilégié et que le container est de type normal
@@ -202,7 +198,7 @@ public class Stockage extends AbstractStockage implements Entrepot
             stat.executeUpdate();
         }
         catch(SQLException e){
-            System.out.println(e.getMessage());
+            this.notifyError("Impossible de se connecter à la base de données !");
         }
         
     }
@@ -237,7 +233,7 @@ public class Stockage extends AbstractStockage implements Entrepot
             rs.close();
         }
         catch(SQLException e) {
-            System.out.println(e.getMessage());
+            this.notifyError("Impossible de se connecter à la base de données !");
         }
         return emplacementId;
     }
@@ -262,7 +258,7 @@ public class Stockage extends AbstractStockage implements Entrepot
             rs.close();
             
         } catch(SQLException e) {
-            System.out.println("Erreur de récupération des containers");
+            this.notifyError("Impossible de se connecter à la base de données !");
         }
         //Stockage des containers
         try {
@@ -270,9 +266,9 @@ public class Stockage extends AbstractStockage implements Entrepot
                 this.storeContainer(container.getId(), this.getEmplacementLibre(container.getType()));
             }
         } catch (ContainerException e) {
-            System.out.println("Container invalide");
+            this.notifyError(e.getMessage());
         } catch (EmplacementException e) {
-            System.out.println("Emplacement impossible");
+            this.notifyError(e.getMessage());
         }
     }
     
