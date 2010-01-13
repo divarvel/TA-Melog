@@ -1,20 +1,12 @@
 package com.ecnmelog.model;
 
+import com.ecnmelog.observer.Observer;
 import java.util.ArrayList;
 
-import com.ecnmelog.observer.Observable;
-import com.ecnmelog.observer.Observer;
+public abstract class ObservableModel {
 
-/**
- * Classe abstraite permettant de bien définir le comportement de l'objet stockage vis-à-vis du contrôleur
- */
-public abstract class AbstractStockage extends ObservableModel implements Observable, Entrepot{
     
-    public abstract int countEmplacementsDispo();
-    public abstract int countEmplacementsDispo(int type);
-    public abstract void storeContainer(int container_id, int emplacement_id) throws ContainerException, EmplacementException;
-    public abstract int getEmplacementLibre(int containerType) throws ContainerException, EmplacementException;
-    public abstract void traiterAttente();
+    protected ArrayList<Observer> listObserver = new ArrayList<Observer>();
     
     //**************************************************
     //           IMPLÉMENTATION PATTERN OBSERVER
@@ -31,6 +23,21 @@ public abstract class AbstractStockage extends ObservableModel implements Observ
     public void notifyStockageObserver(AbstractStockageBean stockageBean) {
         for(Observer obs : listObserver)
             obs.updateStockage(stockageBean);
+    }
+    
+    public void notifyInfo(String info) {
+        for(Observer obs : listObserver)
+            obs.displayInfo(info);
+    }
+    
+    public void notifyWarning(String warning) {
+        for(Observer obs : listObserver)
+            obs.displayWarning(warning);
+    }
+    
+    public void notifyError(String error) {
+        for(Observer obs : listObserver)
+            obs.displayError(error);
     }
 
     public void removeObserver() {
