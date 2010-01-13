@@ -42,7 +42,19 @@ public class StockageController {
      * Stocker les containers en attente
      */
     public void traiterAttente() {
+        int containers = this.att.countContainers();
+        int containersLeft;
+
         this.stock.traiterAttente();
+        
+        containersLeft = this.att.countContainers();
+
+        if(containersLeft == 0) {
+            this.att.notifyInfo(containers + " containers ont été stockés");
+        } else {
+            this.att.notifyWarning(containersLeft + " containers n'ont pu être stockés");
+        }
+        
     }
     
     /**
