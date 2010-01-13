@@ -12,7 +12,7 @@ public class Attente extends AbstractAttente implements Entrepot{
      * Initialisation de l'espace d'attente
      * */
     public Attente(){
-        
+        this.notifyAttenteObserver(new AttenteBean());
     }
     
     /**
@@ -33,6 +33,8 @@ public class Attente extends AbstractAttente implements Entrepot{
         catch(SQLException e){
             throw new ContainerException("Le conteneur est déjà répertorié !");
         }
+
+        this.notifyAttenteObserver(new AttenteBean());
     }
     
     
@@ -110,6 +112,8 @@ public class Attente extends AbstractAttente implements Entrepot{
         catch(SQLException e){
             this.notifyError("Impossible de se connecter à la base de données !");
         }
+        
+        this.notifyAttenteObserver(new AttenteBean());
     }
     
     /**
@@ -139,6 +143,8 @@ public class Attente extends AbstractAttente implements Entrepot{
         catch(SQLException e){
             this.notifyError("Impossible de se connecter à la base de données !");
         }
+        
+        this.notifyAttenteObserver(new AttenteBean());
     }
     
     /**
@@ -156,6 +162,8 @@ public class Attente extends AbstractAttente implements Entrepot{
         catch(SQLException e){
             this.notifyError("Impossible de se connecter à la base de données !");
         }
+        
+        this.notifyAttenteObserver(new AttenteBean());
     }
     
     /** Vide la zone d'attente */
@@ -168,6 +176,8 @@ public class Attente extends AbstractAttente implements Entrepot{
         catch(SQLException e){
             this.notifyError("Impossible de se connecter à la base de données !");
         }
+        
+        this.notifyAttenteObserver(new AttenteBean());
     }
     
 }
