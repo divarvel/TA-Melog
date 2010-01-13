@@ -203,9 +203,6 @@ public class Stockage extends AbstractStockage implements Entrepot
         catch(SQLException e){
             this.notifyError("Impossible de se connecter à la base de données !");
         }
-        
-        this.notifyAttenteObserver(new AttenteBean());
-        this.notifyStockageObserver(new StockageBean());
     }
     
     /** 
@@ -273,10 +270,15 @@ public class Stockage extends AbstractStockage implements Entrepot
         } catch (ContainerException e) {
             this.notifyError(e.getMessage());
         } catch (EmplacementException e) {
-            this.notifyError(e.getMessage());
+            // On n'affiche pas d'erreur dans la vue
+            // Cette erreur arrive au cours du processus de traitement d'attente, lorsqu'il y a trop de containers.
+            // L'utilisateur est prévenu à la fin du process, pas besoin de l'en avertir au milieu 
+            //this.notifyError(e.getMessage());
         }
         
-        // On ne notifie pas la vue, ça a été fait par la méthode storeContainer
+        
+        this.notifyAttenteObserver(new AttenteBean());
+        this.notifyStockageObserver(new StockageBean());
     }
     
     
@@ -361,6 +363,7 @@ public class Stockage extends AbstractStockage implements Entrepot
         }
         
         this.notifyStockageObserver(new StockageBean());
+        this.notifyInfo("Container enlevé");
     }
     
     /**
@@ -392,6 +395,7 @@ public class Stockage extends AbstractStockage implements Entrepot
         }
 
         this.notifyStockageObserver(new StockageBean());
+        this.notifyInfo("Containers enlevés");
     }
     
     /**
@@ -411,6 +415,7 @@ public class Stockage extends AbstractStockage implements Entrepot
         }
 
         this.notifyStockageObserver(new StockageBean());
+        this.notifyInfo("Containers enlevés");
     }
     
     /** Vide la zone de stockage */
@@ -425,5 +430,6 @@ public class Stockage extends AbstractStockage implements Entrepot
         }
 
         this.notifyStockageObserver(new StockageBean());
+        this.notifyInfo("Zone de stockage vidée");
     }
 }
