@@ -50,6 +50,8 @@ public class StockageTest
       
       Stockage stock = new Stockage(100);
       Attente att = new Attente();
+      att.empty();
+      stock.empty();
       try{
         att.addContainer(new Container(1, 0));
         att.addContainer(new Container(2, 1));
@@ -57,7 +59,7 @@ public class StockageTest
         att.addContainer(new Container(4, 1));
         att.addContainer(new Container(5, 1));
       }catch(ContainerException e){
-        System.out.println(e.getMessage());
+        System.out.println("--store--"+e.getMessage());
       }
       try{
         stock.storeContainer(1, 1);
@@ -65,11 +67,11 @@ public class StockageTest
       }
       catch(ContainerException e)
       {
-        System.out.println(e.getMessage());
+        System.out.println("--store--"+e.getMessage());
       }
       catch(EmplacementException e)
       {
-        System.out.println(e.getMessage());
+        System.out.println("--store--"+e.getMessage());
       }
       assertEquals(3, att.countContainers());
       assertEquals(2, stock.countContainers());
@@ -92,7 +94,7 @@ public class StockageTest
         att.addContainer(new Container(4, 1));
         att.addContainer(new Container(5, 1));
       }catch(ContainerException e){
-        System.out.println(e.getMessage());
+        System.out.println("--empty--"+e.getMessage());
       }
       try{
         stock.storeContainer(1, 1);
@@ -100,21 +102,23 @@ public class StockageTest
       }
       catch(ContainerException e)
       {
-        System.out.println(e.getMessage());
+        System.out.println("--empty--"+e.getMessage());
       }
       catch(EmplacementException e)
       {
-        System.out.println(e.getMessage());
+        System.out.println("--empty--"+e.getMessage());
       }
       
       stock.empty();
       assertEquals(0, stock.countContainers());
     }
     
-    public void testGetEmplacemetLibre() {
+    public void testGetEmplacementLibre() {
         
       Stockage stock = new Stockage(100);
       Attente att = new Attente();
+      att.empty();
+      stock.empty();
       
       try{
         for(int i=0; i<=1; i++) {
@@ -178,6 +182,8 @@ public class StockageTest
     public void testTraiterAttente() {
         Stockage stock = new Stockage(100);
         Attente att = new Attente();
+        att.empty();
+        stock.empty();
         
         // On ajoute 2 containers normaux
         // On ajoute 6 containers frigo
@@ -215,6 +221,8 @@ public class StockageTest
         // Cas où tous les containers ne peuvent être chargés
         Stockage stock = new Stockage(100);
         Attente att = new Attente();
+        att.empty();
+        stock.empty();
         
         // On ajoute 35 containers normaux
         // On ajoute 6 containers frigo

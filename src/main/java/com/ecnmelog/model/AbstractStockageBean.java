@@ -1,6 +1,6 @@
 package com.ecnmelog.model;
 
-import java.util.ArrayList;
+import java.util.TreeMap;
 import java.sql.*;
 
 import com.ecnmelog.model.DbConn;
@@ -13,22 +13,22 @@ import com.ecnmelog.model.Emplacement;
  */
 public abstract class AbstractStockageBean {
     /** Liste des containers stockés INDEXÉS PAR LEUR EMPLACEMENT */
-    protected ArrayList<Container> containers;
+    protected TreeMap<Integer, Container> containers;
     /** Nombre de containers de chaque type */
-    protected ArrayList<Integer> nbContainers;
+    protected TreeMap<Integer, Integer> nbContainers;
     /** Liste des emplacements */
-    protected ArrayList<Emplacement> emplacements;
+    protected TreeMap<Integer, Emplacement> emplacements;
     /** Liste des emplacements disponibles */
-    protected ArrayList<Emplacement> emplacementsDispo;
+    protected TreeMap<Integer, Emplacement> emplacementsDispo;
     /** Nombre d'emplacements */
-    protected ArrayList<Integer> nbEmplacements;
+    protected TreeMap<Integer, Integer> nbEmplacements;
     /** Liste des emplacements disponibles */
-    protected ArrayList<Integer> nbEmplacementsDispo;
+    protected TreeMap<Integer, Integer> nbEmplacementsDispo;
     
     /** Renvoie la liste des containers stockés.
      * @return La liste des containers stockés
      */
-    public ArrayList<Container> getContainers() {
+    public TreeMap<Integer, Container> getContainers() {
         return this.containers;
     }
     
@@ -37,8 +37,8 @@ public abstract class AbstractStockageBean {
      */
     public int countContainers() {
         int nb = 0;
-        for (int i : this.nbContainers) {
-            nb += i;
+        for (int i : this.nbContainers.keySet()) {
+            nb += this.nbContainers.get(i);
         }
         
         return nb;
@@ -60,14 +60,14 @@ public abstract class AbstractStockageBean {
     /** Renvoie la liste des emplacements
      * @return La liste des emplacements
      */
-    public ArrayList<Emplacement> getEmplacements() {
+    public TreeMap<Integer, Emplacement> getEmplacements() {
         return this.emplacements;
     }
     
     /** Renvoie la liste des emplacements disponibles
      * @return La liste des emplacements disponibles
      */
-    public ArrayList<Emplacement> getEmplacementsDispo() {
+    public TreeMap<Integer, Emplacement> getEmplacementsDispo() {
         return this.emplacementsDispo;
     }
     
@@ -76,8 +76,8 @@ public abstract class AbstractStockageBean {
      */
     public int countEmplacements() {
         int nb = 0;
-        for(int i : this.nbEmplacements) {
-            nb += i;
+        for(int i : this.nbEmplacements.keySet()) {
+            nb += this.nbEmplacements.get(i);
         }
         return nb;
     }
@@ -98,8 +98,8 @@ public abstract class AbstractStockageBean {
      */
     public int countEmplacementsDispo() {
         int nb = 0;
-        for(int i : this.nbEmplacementsDispo) {
-            nb += i;
+        for(int i : this.nbEmplacementsDispo.keySet()) {
+            nb += this.nbEmplacementsDispo.get(i);
         }
         return nb;
     }

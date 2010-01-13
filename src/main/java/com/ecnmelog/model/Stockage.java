@@ -30,7 +30,7 @@ public class Stockage extends AbstractStockage implements Entrepot
         
         Connection conn = DbConn.getInstance();
         
-        try{
+        try {
             Statement stat = conn.createStatement();
             // On vide le schéma (si on reconstruit l'espace de stockage alors qu'il existe déjà, ça évite des bugs)
             stat.executeUpdate("DROP TABLE IF EXISTS type;");
@@ -83,6 +83,7 @@ public class Stockage extends AbstractStockage implements Entrepot
                 conn.setAutoCommit(true);
         }
         catch(SQLException e){
+            System.out.println(e.getMessage());
             this.notifyError("Impossible de créer l'espace de stockage !");
         }
 

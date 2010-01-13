@@ -1,6 +1,6 @@
 package com.ecnmelog.model;
 
-import java.util.ArrayList;
+import java.util.TreeMap;
 import java.sql.*;
 
 import com.ecnmelog.model.DbConn;
@@ -18,8 +18,8 @@ public class AttenteBean extends AbstractAttenteBean {
     public AttenteBean() {
         Connection conn = DbConn.getInstance();
         
-        this.containers = new ArrayList<Container>();
-        this.nbContainers = new ArrayList<Integer>();
+        this.containers = new TreeMap<Integer, Container>();
+        this.nbContainers = new TreeMap<Integer, Integer>();
         
         try {
             // Récupération et stockage de tous les containers en attente
@@ -27,7 +27,7 @@ public class AttenteBean extends AbstractAttenteBean {
             ResultSet rs = stat.executeQuery("SELECT container_id, type_id FROM container WHERE emplacement_id ISNULL ORDER BY container_id ASC;");
             
             while(rs.next()) {
-                this.containers.add(new Container(rs.getInt("container_id"), rs.getInt("type_id")));
+                this.containers.put(rs.getInt("container_id"), new Container(rs.getInt("container_id"), rs.getInt("type_id")));
             }
             rs.close();
         } catch(SQLException e) {
@@ -44,7 +44,7 @@ public class AttenteBean extends AbstractAttenteBean {
             ResultSet rs = stat.executeQuery("SELECT COUNT(*) AS nb, a.type_id FROM container a NATURAL JOIN type b WHERE a.emplacement_id ISNULL GROUP BY a.type_id;");
             
             while(rs.next()) {
-                this.nbContainers.add(rs.getInt("type_id"), rs.getInt("nb"));
+                this.nbContainers.put(rs.getInt("type_id"), rs.getInt("nb"));
             }
             rs.close();
         } catch(SQLException e) {

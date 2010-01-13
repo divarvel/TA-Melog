@@ -1,6 +1,6 @@
 package com.ecnmelog.model;
 
-import java.util.ArrayList;
+import java.util.TreeMap;
 import java.sql.*;
 
 import com.ecnmelog.model.DbConn;
@@ -12,12 +12,12 @@ import com.ecnmelog.model.Container;
  */
 public abstract class AbstractAttenteBean {
     /** Liste des containers */
-    protected ArrayList<Container> containers;
+    protected TreeMap<Integer, Container> containers;
     /** Nombre de containers de chaque type */
-    protected ArrayList<Integer> nbContainers;
+    protected TreeMap<Integer, Integer> nbContainers;
     
     /** Renvoie la liste des containers en attente */
-    public ArrayList<Container> getContainers() {
+    public TreeMap<Integer, Container> getContainers() {
         return this.containers;
     }
     
@@ -26,8 +26,8 @@ public abstract class AbstractAttenteBean {
      */
     public int countContainers() {
         int nb = 0;
-        for (int i : this.nbContainers) {
-            nb += i;
+        for (int i : this.nbContainers.keySet()) {
+            nb += this.nbContainers.get(i);
         }
         
         return nb;

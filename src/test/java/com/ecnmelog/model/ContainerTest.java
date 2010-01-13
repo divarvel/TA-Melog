@@ -49,8 +49,13 @@ public class ContainerTest
      */
     public void testGetTypes()
     {
+        try {
         Stockage stock = new Stockage(100);
         Attente att = new Attente();
+        } catch(Exception e) {
+            e.printStackTrace();
+            System.out.println("------"+e.getMessage());
+        } 
         ArrayList<Integer> typesAttendus = new ArrayList<Integer>();
         typesAttendus.add(0);
         typesAttendus.add(1);
