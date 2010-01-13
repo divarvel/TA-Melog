@@ -5,7 +5,6 @@ import java.util.ArrayList;
 
 public abstract class ObservableModel {
 
-    
     protected ArrayList<Observer> listObserver = new ArrayList<Observer>();
     
     //**************************************************

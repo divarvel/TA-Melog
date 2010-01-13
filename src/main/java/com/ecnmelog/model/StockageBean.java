@@ -17,14 +17,14 @@ public class StockageBean extends AbstractStockageBean {
      */
     public StockageBean() {
         Connection conn = DbConn.getInstance();
-        
+
         this.containers = new ArrayList<Container>();
         this.nbContainers = new ArrayList<Integer>();
         this.emplacements = new ArrayList<Emplacement>();
         this.nbEmplacements = new ArrayList<Integer>();
         this.emplacementsDispo = new ArrayList<Emplacement>();
         this.nbEmplacementsDispo = new ArrayList<Integer>();
-        
+
         // Partie Containers
         
         try {

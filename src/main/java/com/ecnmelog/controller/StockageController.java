@@ -33,8 +33,7 @@ public class StockageController {
             try {
                 this.att.addContainer(new Container(id, type));
             } catch (ContainerException e) {
-                // ToDo : Demander à la vue d'afficher un message d'erreur
-                System.out.println(e.getMessage());
+                this.att.notifyWarning(e.getMessage());
             }
         }
     }
