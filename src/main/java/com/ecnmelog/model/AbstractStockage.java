@@ -12,7 +12,7 @@ public abstract class AbstractStockage extends ObservableModel implements Observ
     
     public abstract int countEmplacementsDispo();
     public abstract int countEmplacementsDispo(int type);
-    public abstract void storeContainer(int container_id, int emplacement_id) throws ContainerException, EmplacementException;
+    protected abstract void storeContainer(int container_id, int emplacement_id) throws ContainerException, EmplacementException;
     public abstract int getEmplacementLibre(int containerType) throws ContainerException, EmplacementException;
     public abstract void traiterAttente();
 }

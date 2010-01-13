@@ -145,8 +145,7 @@ public class Stockage extends AbstractStockage implements Entrepot
     * @throws ContainerException Si on essaye de stocker un container qui n'existe pas
     * @throws EmplacementException Si on essaye de stocker un container dans un emplacement indisponible
     */
-    public void storeContainer(int container_id, int emplacement_id) throws ContainerException, EmplacementException
-    {
+    protected void storeContainer(int container_id, int emplacement_id) throws ContainerException, EmplacementException {
         Connection conn = DbConn.getInstance();
         int type_id = 0;
         //On vérifie que le container existe
