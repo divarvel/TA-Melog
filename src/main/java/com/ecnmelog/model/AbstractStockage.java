@@ -15,25 +15,4 @@ public abstract class AbstractStockage extends ObservableModel implements Observ
     public abstract void storeContainer(int container_id, int emplacement_id) throws ContainerException, EmplacementException;
     public abstract int getEmplacementLibre(int containerType) throws ContainerException, EmplacementException;
     public abstract void traiterAttente();
-    
-    //**************************************************
-    //           IMPLÉMENTATION PATTERN OBSERVER
-    //**************************************************
-    public void addObserver(Observer obs) {
-        this.listObserver.add(obs);
-    }
-    
-    public void notifyAttenteObserver(AbstractAttenteBean attenteBean) {
-        for(Observer obs : listObserver)
-            obs.updateAttente(attenteBean);
-    }
-
-    public void notifyStockageObserver(AbstractStockageBean stockageBean) {
-        for(Observer obs : listObserver)
-            obs.updateStockage(stockageBean);
-    }
-
-    public void removeObserver() {
-        listObserver = new ArrayList<Observer>();
-    }
 }
