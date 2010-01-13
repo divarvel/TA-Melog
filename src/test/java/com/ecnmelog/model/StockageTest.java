@@ -245,7 +245,7 @@ public class StockageTest
         assertEquals(6, stock.countContainers(1));
         assertEquals(67, stock.countContainers(2));
         
-        // On vérfie qu'il reste bien 5 containers normaux en attente
+        // On vérfie qu'il reste bien 8 containers normaux en attente
         assertEquals(8, att.countContainers(0));
         assertEquals(0, att.countContainers(1));
         assertEquals(0, att.countContainers(2));
