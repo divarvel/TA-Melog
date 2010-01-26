@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 /**
  * Tests unitaires pour la classe Container
+ * @author Benjamin Vialle
  */
 public class ContainerTest 
     extends TestCase
@@ -65,4 +66,44 @@ public class ContainerTest
         
         assertEquals(typesAttendus, types);
     }
+	
+	public void testgetEmplacement(){
+        Stockage stock = new Stockage(100);
+        Attente att = new Attente();
+        Container container = new Container(1);
+        Container containerFrigo = new Container(2, 1);
+		
+		//Pas d'emplacement
+		assertEquals(container.getEmplacement(),0);				
+		assertEquals(containerFrigo.getEmplacement(),0);
+	}
+	
+	public void testgetId(){
+        Stockage stock = new Stockage(100);
+        Attente att = new Attente();
+        Container container = new Container(1);
+        Container containerFrigo = new Container(2, 1);
+		
+		//On teste les IDs
+		assertEquals(container.getId(),1);				
+		assertEquals(containerFrigo.getId(),2);
+	}
+	
+		public void testgetType(){
+        Stockage stock = new Stockage(100);
+        Attente att = new Attente();
+        Container container = new Container(1);
+        Container containerFrigo = new Container(2, 1);
+		Container containerSurTarife = new Container(3, 2);
+		
+		//On teste les types
+		assertEquals(container.getType(),0);				
+		assertEquals(containerFrigo.getType(),1);
+		assertEquals(containerSurTarife.getType(),2);
+	}
+	
+	
+	
+	
+	
 }

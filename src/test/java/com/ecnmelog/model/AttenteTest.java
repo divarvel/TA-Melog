@@ -7,6 +7,7 @@ import junit.framework.TestSuite;
 
 /**
  * Tests unitaires pour la classe Attente
+ * @author Benjamin Vialle
  */
 public class AttenteTest 
     extends TestCase
@@ -66,4 +67,102 @@ public class AttenteTest
             assertTrue(true);
         }
     }
+	
+	    public void testCoutContainers()
+    {
+        Stockage stock = new Stockage(100);
+        Attente att = new Attente();
+
+        try{
+			att.addContainer(new Container(1, 2));
+			att.addContainer(new Container(2, 1));
+			att.addContainer(new Container(3, 2));
+			att.addContainer(new Container(4, 1));
+        }catch(ContainerException e){
+            System.out.println(e.getMessage());
+            assertTrue(false);
+        }
+		
+		assertEquals(att.countContainers(),4);
+	}
+	
+	public void testCoutContainers2()
+    {
+        Stockage stock = new Stockage(100);
+        Attente att = new Attente();
+
+        try{
+			att.addContainer(new Container(1, 2));
+			att.addContainer(new Container(2, 1));
+			att.addContainer(new Container(3, 2));
+			att.addContainer(new Container(4, 1));
+        }catch(ContainerException e){
+            System.out.println(e.getMessage());
+            assertTrue(false);
+        }
+		
+		assertEquals(att.countContainers(2),2);
+	}
+	
+	public void testEmpty()
+    {
+        Stockage stock = new Stockage(100);
+        Attente att = new Attente();
+
+        try{
+			att.addContainer(new Container(1, 2));
+			att.addContainer(new Container(2, 1));
+			att.addContainer(new Container(3, 2));
+			att.addContainer(new Container(4, 1));
+        }catch(ContainerException e){
+            System.out.println(e.getMessage());
+            assertTrue(false);
+        }
+		
+		att.empty();
+		
+		assertEquals(att.countContainers(),0);
+	}
+	
+		public void testRemoveContainerById()
+    {
+        Stockage stock = new Stockage(100);
+        Attente att = new Attente();
+
+        try{
+			att.addContainer(new Container(1, 2));
+			att.addContainer(new Container(2, 1));
+			att.addContainer(new Container(3, 2));
+			att.addContainer(new Container(4, 1));
+			att.removeContainerById(3);
+        }catch(ContainerException e){
+            System.out.println(e.getMessage());
+            assertTrue(false);
+        }
+		
+		
+		assertEquals(att.countContainers(1),2);
+		assertEquals(att.countContainers(2),1);
+	}
+	
+	public void testRemoveContainerByType()
+    {
+        Stockage stock = new Stockage(100);
+        Attente att = new Attente();
+
+        try{
+			att.addContainer(new Container(1, 2));
+			att.addContainer(new Container(2, 1));
+			att.addContainer(new Container(3, 2));
+			att.addContainer(new Container(4, 1));
+			att.removeContainerByType(2);
+        }catch(ContainerException e){
+            System.out.println(e.getMessage());
+            assertTrue(false);
+        }
+		
+		
+		assertEquals(att.countContainers(1),2);
+		assertEquals(att.countContainers(2),1);
+	}
 }

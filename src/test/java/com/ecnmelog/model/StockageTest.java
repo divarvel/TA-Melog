@@ -6,6 +6,7 @@ import junit.framework.TestSuite;
 
 /**
  * Tests unitaires pour la classe Stockage
+ * @author Benjamin Vialle
  */
 public class StockageTest 
     extends TestCase
@@ -39,6 +40,218 @@ public class StockageTest
         assertEquals(5, stock.countEmplacementsDispo(1));
         assertEquals(65, stock.countEmplacementsDispo(2));
         assertEquals(30, stock.countEmplacementsDispo(0));
+    }
+	
+	public void testCountContainer(){
+      
+      Stockage stock = new Stockage(100);
+      Attente att = new Attente();
+      try{
+        att.addContainer(new Container(1, 0));
+        att.addContainer(new Container(2, 1));
+        att.addContainer(new Container(3, 1));
+        att.addContainer(new Container(4, 1));
+        att.addContainer(new Container(5, 1));
+      }catch(ContainerException e){
+        System.out.println("--empty--"+e.getMessage());
+      }
+      try{
+        stock.storeContainer(1, 1);
+        stock.storeContainer(2, 31);
+      }
+      catch(ContainerException e)
+      {
+        System.out.println(e.getMessage());
+      }
+      catch(EmplacementException e)
+      {
+        System.out.println(e.getMessage());
+      }
+
+      assertEquals(2, stock.countContainers());
+    }
+	
+	public void testCountContainers(){
+      
+      Stockage stock = new Stockage(100);
+      Attente att = new Attente();
+      try{
+        att.addContainer(new Container(1, 0));
+        att.addContainer(new Container(2, 1));
+        att.addContainer(new Container(3, 1));
+        att.addContainer(new Container(4, 1));
+        att.addContainer(new Container(5, 1));
+      }catch(ContainerException e){
+        System.out.println(e.getMessage());
+      }
+      try{
+        stock.storeContainer(1, 1);
+        stock.storeContainer(2, 31);
+      }
+      catch(ContainerException e)
+      {
+        System.out.println(e.getMessage());
+      }
+      catch(EmplacementException e)
+      {
+        System.out.println(e.getMessage());
+      }
+
+      assertEquals(1, stock.countContainers(1));
+    }
+	
+	
+	public void testCountEmplacementsDispo(){
+      
+      Stockage stock = new Stockage(100);
+      Attente att = new Attente();
+      try{
+        att.addContainer(new Container(1, 0));
+        att.addContainer(new Container(2, 1));
+        att.addContainer(new Container(3, 1));
+        att.addContainer(new Container(4, 1));
+        att.addContainer(new Container(5, 1));
+      }catch(ContainerException e){
+        System.out.println(e.getMessage());
+      }
+      try{
+        stock.storeContainer(1, 1);
+        stock.storeContainer(2, 31);
+      }
+      catch(ContainerException e)
+      {
+        System.out.println(e.getMessage());
+      }
+      catch(EmplacementException e)
+      {
+        System.out.println(e.getMessage());
+      }
+
+      assertEquals(98, stock.countEmplacementsDispo());
+    }
+	
+	public void testCountEmplacementsDispoByType(){
+      
+      Stockage stock = new Stockage(100);
+      Attente att = new Attente();
+      try{
+        att.addContainer(new Container(1, 0));
+        att.addContainer(new Container(2, 1));
+        att.addContainer(new Container(3, 1));
+        att.addContainer(new Container(4, 1));
+        att.addContainer(new Container(5, 1));
+      }catch(ContainerException e){
+        System.out.println(e.getMessage());
+      }
+      try{
+        stock.storeContainer(1, 1);
+        stock.storeContainer(2, 31);
+      }
+      catch(ContainerException e)
+      {
+        System.out.println(e.getMessage());
+      }
+      catch(EmplacementException e)
+      {
+        System.out.println(e.getMessage());
+      }
+
+      assertEquals(29, stock.countEmplacementsDispo(0));
+    }
+	
+	
+	public void testRemoveContainerById(){
+      
+      Stockage stock = new Stockage(100);
+      Attente att = new Attente();
+      try{
+        att.addContainer(new Container(1, 0));
+        att.addContainer(new Container(2, 1));
+        att.addContainer(new Container(3, 1));
+        att.addContainer(new Container(4, 1));
+        att.addContainer(new Container(5, 1));
+      }catch(ContainerException e){
+        System.out.println(e.getMessage());
+      }
+      try{
+        stock.storeContainer(1, 1);
+        stock.storeContainer(2, 31);
+		stock.removeContainerById(1);
+		stock.removeContainerById(2);
+      }
+      catch(ContainerException e)
+      {
+        System.out.println(e.getMessage());
+      }
+      catch(EmplacementException e)
+      {
+        System.out.println(e.getMessage());
+      }
+
+      assertEquals(100, stock.countEmplacementsDispo());
+    }
+	
+	public void testRemoveContainerByType(){
+      
+      Stockage stock = new Stockage(100);
+      Attente att = new Attente();
+      try{
+        att.addContainer(new Container(1, 0));
+        att.addContainer(new Container(2, 1));
+        att.addContainer(new Container(3, 1));
+        att.addContainer(new Container(4, 1));
+        att.addContainer(new Container(5, 1));
+      }catch(ContainerException e){
+        System.out.println(e.getMessage());
+      }
+      try{
+        stock.storeContainer(1, 1);
+        stock.storeContainer(2, 31);
+		stock.removeContainerByType(0);
+		stock.removeContainerByType(1);
+      }
+      catch(ContainerException e)
+      {
+        System.out.println(e.getMessage());
+      }
+      catch(EmplacementException e)
+      {
+        System.out.println(e.getMessage());
+      }
+
+      assertEquals(100, stock.countEmplacementsDispo());
+    }
+	
+	public void testRemoveContainersByType(){
+      
+      Stockage stock = new Stockage(100);
+      Attente att = new Attente();
+      try{
+        att.addContainer(new Container(1, 0));
+        att.addContainer(new Container(2, 1));
+        att.addContainer(new Container(3, 1));
+        att.addContainer(new Container(4, 1));
+        att.addContainer(new Container(5, 1));
+      }catch(ContainerException e){
+        System.out.println(e.getMessage());
+      }
+      try{
+        stock.storeContainer(1, 1);
+        stock.storeContainer(2, 31);
+		stock.storeContainer(3,32);
+		stock.removeContainersByType(0);
+		stock.removeContainersByType(1);
+      }
+      catch(ContainerException e)
+      {
+        System.out.println(e.getMessage());
+      }
+      catch(EmplacementException e)
+      {
+        System.out.println(e.getMessage());
+      }
+
+      assertEquals(100, stock.countEmplacementsDispo());
     }
     
     /**
