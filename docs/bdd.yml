@@ -1,0 +1,16 @@
+type:
+  _attributes:
+    cluster: Stockage
+  nom:
+  couleur:
+  
+container:
+  _attributes:
+    cluster: Stockage
+  type_id:
+  emplacement_id:
+
+emplacement:
+  _attributes:
+    cluster: Stockage
+  type_id:

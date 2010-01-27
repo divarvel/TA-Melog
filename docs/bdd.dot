@@ -1,0 +1,35 @@
+digraph g {
+  graph [rankdir = "BT"];
+  node [FontSize = "16"];
+
+  container -> emplacement; 
+  container -> type; 
+  emplacement -> type; 
+
+  container[ label = <<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" WIDTH="100"> 
+  <TR><TD BORDER="1" BGCOLOR="#BBBBBB" WIDTH="100">container</TD></TR>
+  <TR><TD ALIGN="LEFT" BGCOLOR="#FFCCCC" WIDTH="100">container_id</TD></TR>
+  <TR><TD ALIGN="LEFT" BGCOLOR="#CCFFCC" WIDTH="100">emplacement_id</TD></TR>
+  <TR><TD ALIGN="LEFT" BGCOLOR="#CCFFCC" WIDTH="100">type_id</TD></TR>
+  </TABLE>> shape = "plaintext" ];
+
+  emplacement[ label = <<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" WIDTH="100"> 
+  <TR><TD BORDER="1" BGCOLOR="#BBBBBB" WIDTH="100">emplacement</TD></TR>
+  <TR><TD ALIGN="LEFT" BGCOLOR="#FFCCCC" WIDTH="100">emplacement_id</TD></TR>
+  <TR><TD ALIGN="LEFT" BGCOLOR="#CCFFCC" WIDTH="100">type_id</TD></TR>
+  </TABLE>> shape = "plaintext" ];
+
+  type[ label = <<TABLE BORDER="1" CELLBORDER="0" CELLSPACING="0" WIDTH="100"> 
+  <TR><TD BORDER="1" BGCOLOR="#BBBBBB" WIDTH="100">type</TD></TR>
+  <TR><TD ALIGN="LEFT" BGCOLOR="#FFCCCC" WIDTH="100">type_id</TD></TR>
+  <TR><TD ALIGN="LEFT" WIDTH="100">type_couleur</TD></TR>
+  <TR><TD ALIGN="LEFT" WIDTH="100">type_nom</TD></TR>
+  </TABLE>> shape = "plaintext" ];
+
+  subgraph cluster_Stockage {
+    label = Stockage;
+    container;
+    emplacement;
+    type;
+  }
+}

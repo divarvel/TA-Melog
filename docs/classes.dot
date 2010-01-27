@@ -1,0 +1,89 @@
+digraph g{
+  graph [rankdir = "BT"];
+  fontname = "Bitstream Vera Sans"
+  fontsize = 8
+
+    node [
+      fontname = "Bitstream Vera Sans"
+      fontsize = 8
+      shape = "record"
+    ]
+
+    edge [
+      fontname = "Bitstream Vera Sans"
+      fontsize = 8
+    ]
+  
+  
+   
+   
+   App[
+    label = "{App| \l|+ static main(args : String[]) : void \l}"
+   ]
+
+  StockageController[
+    label= "{Controller|# att : AbstractStockage \l# stock : AbstractAttente \l# containerTypes : ArrayList\<Integer\>  \l|+ StockageController(stock : AbstractStockage, att : AbstractAttente)\l+ addContainer(id : int, type : int) \l+ emptyAttente() \l+ emptyStockage() \l+ removeFromAttente(id : int) \l+ removeFromStockage(id : int) \l+ traiterAttente()\l}"
+  ]
+
+  subgraph observer {
+    label = Observer;
+    Observable;
+    Observer;
+  }
+
+  subgraph controller {
+    label = Controller;
+    StockageController;
+  }
+
+  subgraph app {
+    label = App;
+    App;
+  }
+
+  subgraph view  {
+    label = View;
+    Interface;
+    GuiAttente;
+    GuiStockage;
+    GuiSchemaStockage;
+    GuiTableauStockage;
+  }
+  
+  subgraph model {
+    label = Model;
+    AbstractStockage;
+    Stockage;
+    AbstractAttente;
+    Attente;
+    Container;
+    Emplacement;
+    Entrepot;
+    subgraph model_beans {
+      label = Beans;
+      AbstractAttenteBean;
+      AttenteBean;
+      AbstractStockageBean;
+      StockageBean;
+    }
+
+    subgraph model_exceptions {
+      label = Exceptions;
+      ContainerException;
+      EmplacementException;
+    }
+
+    subgraph model_db {
+      label = BDD
+      DbConn;
+    }
+
+    subgraph model_observable {
+      label = Observable
+      ObservableModel;
+    }
+
+  }
+
+}
+
